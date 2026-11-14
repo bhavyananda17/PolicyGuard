@@ -1,0 +1,46 @@
+W1114 05:07:11.131000 26737 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/.venv/lib/python3.12/site-packages/torchao/quantization/quant_api.py:1745: SyntaxWarning: invalid escape sequence '\.'
+  * regex for parameter names, must start with `re:`, e.g. `re:language\.layers\..+\.q_proj.weight`.
+127 usable current chunks
+single_hop: 202 items  | usage {'calls': 127, 'cached': 0, 'prompt_tokens': 60373, 'completion_tokens': 24540}
+multi_hop: 27 items  | usage {'calls': 158, 'cached': 0, 'prompt_tokens': 81912, 'completion_tokens': 32800}
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 9376.31it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Traceback (most recent call last):
+  File "/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/src/llm.py", line 53, in chat
+    with urllib.request.urlopen(req, timeout=120) as r:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/Users/bhavyananda17/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 429: Too Many Requests
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/src/gen_questions.py", line 235, in <module>
+    print(f"{len(cur)} usable current chunks")
+    ^^^^^^
+  File "/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/src/gen_questions.py", line 231, in main
+    ap.add_argument("--nc_calls", type=int, default=12)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/src/gen_questions.py", line 203, in not_covered
+    model=MODEL["not_covered"], json_mode=True, temperature=0.9, tag="nc")) or {}
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bhavyananda17/Documents/coding/lexsi labs hackathon/src/llm.py", line 61, in chat
+    raise RuntimeError(f"daily limit hit on {model}: {msg}")
+RuntimeError: daily limit hit on openai/gpt-oss-20b: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kxd80nj3f2hs0krmvravjmc6` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197546, Requested 5753. Please try again in 23m45.168s. Need more tokens? Upgrade to Dev Tier today at https://

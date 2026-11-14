@@ -1,0 +1,7 @@
+{
+  "_why": "Superseded-rule topics removed after manual review: the 'current rule' extracted was a form heading or field, not a rule a policyholder could act on.",
+  "Additional waiting period for undisclosed conditions": "current answer is a form field ('Waiting Periods in days proposed'), not a rule",
+  "certification of filing form statements": "insurer filing paperwork, not a policyholder rule",
+  "Maximum cap on discounts and loadings": "current answer is a form heading list, not a rule",
+  "Use of loss ratio vs profit margin based on policy term": "current circular does not state the rule; answer is 'not prescribed'"
+}

@@ -1,0 +1,10 @@
+.venv/
+vendor/
+.env
+data/raw/
+__pycache__/
+*.pyc
+adapters/
+*.safetensors
+.DS_Store
+configs/lora_run.yaml

@@ -1,0 +1,34 @@
+{
+  "documents": {
+    "current_mc_health_2024": {
+      "title": "IRDAI Master Circular on Health Insurance Business (29 May 2024)",
+      "ref": "IRDAI/HLT/CIR/PRO/84/5/2024",
+      "date": "2024-05-29",
+      "status": "current",
+      "source": "https://irdai.gov.in/document-detail?documentId=4942918"
+    },
+    "current_mc_health_2024_annexure": {
+      "title": "Annexure to IRDAI Master Circular on Health Insurance Business (29 May 2024)",
+      "ref": "IRDAI/HLT/CIR/PRO/84/5/2024",
+      "date": "2024-05-29",
+      "status": "current",
+      "source": "https://irdai.gov.in/document-detail?documentId=4942918"
+    },
+    "superseded_mc_standardization_2020": {
+      "title": "IRDAI Master Circular on Standardization of Health Insurance Products (22 July 2020)",
+      "ref": "IRDAI/HLT/REG/CIR/193/07/2020",
+      "date": "2020-07-22",
+      "status": "superseded",
+      "superseded_by": "IRDAI/HLT/CIR/PRO/84/5/2024",
+      "source": "https://irdai.gov.in/document-detail?documentId=395035"
+    }
+  },
+  "chunks": 495,
+  "current_chunks": 133,
+  "superseded_chunks": 362,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "target_words": 140,
+  "overlap_words": 25,
+  "chunks_over_max_tokens": 52,
+  "median_words": 129
+}

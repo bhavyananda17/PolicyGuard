@@ -1,0 +1,54 @@
+Loading configuration file configs/lora_run.yaml
+Loading pretrained model
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 3317.70it/s]
+Loading datasets
+Training
+[34m╭─[0m[34m [0m[1;35mmlx_lm.lora[0m[34m [0m[34m───────────────────────────────────────────────────────────────────────────────────────────────────────[0m[34m─╮[0m
+[34m│[0m    [39mmodel        [0m   [1mCohereLabs/tiny-aya-global[0m                                                                        [34m│[0m
+[34m│[0m    [39mtype         [0m   [1mlora · 16 layers · rank 16[0m                                                                        [34m│[0m
+[34m│[0m    [39mdataset      [0m   [1mdata/mlx[0m                                                                                          [34m│[0m
+[34m│[0m    [39moptimizer    [0m   [1madam · lr 1.0e-04[0m                                                                                 [34m│[0m
+[34m│[0m    [39mbatch · iters[0m   [1m2 · 474[0m                                                                                           [34m│[0m
+[34m│[0m    [39mmax seq      [0m   [1m3,072[0m                                                                                             [34m│[0m
+[34m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯[0m
+Trainable parameters: 0.102% (3.408M/3349.228M)
+  [1miter   train_loss     tok/s     tokens[0m
+  [38;5;244m   1[0m    [1;35mval[0m [1m2.632[0m    [38;5;244m11.48s[0m
+  [38;5;244m  20[0m    [1;32m1.106 ▼[0m    [1m   38[0m    [38;5;244m  1.9k[0m
+  [38;5;244m  40[0m    [1;32m0.599 ▼[0m    [1m   36[0m    [38;5;244m  3.7k[0m
+  [38;5;244m  60[0m    [1;32m0.548 ▼[0m    [1m   41[0m    [38;5;244m  5.6k[0m
+[WARNING] Some sequences are longer than 3072 tokens. The longest sentence 3200 will be truncated to 3072. Consider pre-splitting your data to save memory.
+  [38;5;244m  80[0m    [1;32m0.451 ▼[0m    [1m   39[0m    [38;5;244m  7.6k[0m
+[WARNING] Some sequences are longer than 3072 tokens. The longest sentence 3198 will be truncated to 3072. Consider pre-splitting your data to save memory.
+  [38;5;244m 100[0m    [1;35mval[0m [1m0.203[0m    [38;5;244m12.34s[0m
+  [38;5;244m 100[0m    [1;32m0.324 ▼[0m    [1m   38[0m    [38;5;244m  9.3k[0m
+  [1;32msave[0m  [38;5;244m0000100_adapters.safetensors[0m
+  [38;5;244m 120[0m    [1;32m0.310 ▼[0m    [1m   46[0m    [38;5;244m 11.6k[0m
+  [38;5;244m 140[0m    [1;32m0.290 ▼[0m    [1m   43[0m    [38;5;244m 13.5k[0m
+  [38;5;244m 160[0m    [1;32m0.219 ▼[0m    [1m   41[0m    [38;5;244m 15.4k[0m
+  [38;5;244m 180[0m    [1;33m0.253 ▲[0m    [1m   41[0m    [38;5;244m 17.5k[0m
+  [38;5;244m 200[0m    [1;35mval[0m [1m0.271[0m    [38;5;244m11.70s[0m
+  [38;5;244m 200[0m    [1;33m0.368 ▲[0m    [1m   38[0m    [38;5;244m 19.3k[0m
+  [1;32msave[0m  [38;5;244m0000200_adapters.safetensors[0m
+  [38;5;244m 220[0m    [1;32m0.286 ▼[0m    [1m   44[0m    [38;5;244m 21.2k[0m
+  [38;5;244m 240[0m    [1;33m0.290 ▲[0m    [1m   47[0m    [38;5;244m 23.0k[0m
+  [38;5;244m 260[0m    [1;32m0.168 ▼[0m    [1m   39[0m    [38;5;244m 25.0k[0m
+  [38;5;244m 280[0m    [1;32m0.161 ▼[0m    [1m   44[0m    [38;5;244m 26.9k[0m
+  [38;5;244m 300[0m    [1;35mval[0m [1m0.255[0m    [38;5;244m11.68s[0m
+  [38;5;244m 300[0m    [1;33m0.252 ▲[0m    [1m   39[0m    [38;5;244m 28.8k[0m
+  [1;32msave[0m  [38;5;244m0000300_adapters.safetensors[0m
+  [38;5;244m 320[0m    [1;32m0.172 ▼[0m    [1m   41[0m    [38;5;244m 30.7k[0m
+[WARNING] Some sequences are longer than 3072 tokens. The longest sentence 3198 will be truncated to 3072. Consider pre-splitting your data to save memory.
+  [38;5;244m 340[0m    [1;33m0.191 ▲[0m    [1m   38[0m    [38;5;244m 32.8k[0m
+  [38;5;244m 360[0m    [1;32m0.190 ▼[0m    [1m   41[0m    [38;5;244m 34.8k[0m
+  [38;5;244m 380[0m    [1;33m0.250 ▲[0m    [1m   46[0m    [38;5;244m 36.5k[0m
+  [38;5;244m 400[0m    [1;35mval[0m [1m0.259[0m    [38;5;244m11.76s[0m
+  [38;5;244m 400[0m    [1;32m0.209 ▼[0m    [1m   44[0m    [38;5;244m 38.4k[0m
+  [1;32msave[0m  [38;5;244m0000400_adapters.safetensors[0m
+  [38;5;244m 420[0m    [1;32m0.196 ▼[0m    [1m   42[0m    [38;5;244m 40.2k[0m
+  [38;5;244m 440[0m    [1;33m0.225 ▲[0m    [1m   42[0m    [38;5;244m 42.1k[0m
+[WARNING] Some sequences are longer than 3072 tokens. The longest sentence 3200 will be truncated to 3072. Consider pre-splitting your data to save memory.
+  [38;5;244m 460[0m    [1;32m0.157 ▼[0m    [1m   44[0m    [38;5;244m 44.0k[0m
+  [38;5;244m 474[0m    [1;35mval[0m [1m0.175[0m    [38;5;244m11.59s[0m
+  [38;5;244m 474[0m    [1;33m0.381 ▲[0m    [1m   34[0m    [38;5;244m 45.5k[0m
+[1;34mtrain[0m [34m██████████████████████████████[0m [1;34m100%[0m [38;5;244m·[0m [1;34m  474[0m[38;5;244m/474[0m
