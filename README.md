@@ -7,6 +7,7 @@ PolicyGuard answers questions about IRDAI health-insurance rules by searching th
 - Base model: [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global)
 - Adapter: [`bhavyananda17/policyguard-tiny-aya-global-lora`](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX formats)
 - Dataset: [`bhavyananda17/policyguard-irdai-qa`](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) (questions, trajectories, corpus)
+- Collection: [PolicyGuard (Lexsi hackathon)](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
 - Hardware: one MacBook Pro (M5 Pro, 24 GB). Training: about 50 minutes with MLX. Cost: zero (free Groq tier for data generation).
 
 ## Why this problem
