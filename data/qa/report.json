@@ -14,17 +14,19 @@
     "not_covered": 21
   },
   "trajectories": {
-    "single_hop": 186,
+    "single_hop": 239,
     "multi_hop": 16,
-    "superseded": 23,
-    "not_covered": 63
+    "superseded": 30,
+    "not_covered": 88
   },
   "retry_augmented": 60,
+  "buried_augmented": 60,
+  "nearmiss_augmented": 25,
   "dropped_not_retrieved": {
     "single_hop": 6,
     "multi_hop": 3,
     "superseded": 0,
     "not_covered": 0
   },
-  "not_covered_share_train": 0.219
+  "not_covered_share_train": 0.236
 }

@@ -30,6 +30,13 @@ QA = os.path.join(ROOT, "data/qa")
 TYPES = ["single_hop", "multi_hop", "superseded", "not_covered"]
 TEST_SHARE = 0.25
 RETRY_MAX = 60
+BURY_MAX = 60       # round 3: answer passage moved to the last search result
+NEARMISS_MAX = 25   # round 3: on-topic results with the answer passage removed -> "not found"
+REFUSALS = [
+    "I could not find this in the IRDAI health-insurance documents I can search, so I can't answer it reliably.",
+    "The search results are about related rules, but none of them states this. I could not find the answer in the IRDAI documents.",
+    "I could not find a rule on this in the IRDAI documents I searched, so I won't guess.",
+]
 K = 4
 rnd = random.Random(7)
 
@@ -125,7 +132,13 @@ def cite(ids):
     return " ".join(f"[chunk {c}]" for c in ids)
 
 
-def trajectory(it, s):
+def bury(hits, it, target):
+    """Reorder results so the passages that answer the question come last."""
+    good = grounded(hits, it, target)[0]
+    return [h for h in hits if h["chunk_id"] not in good] + [h for h in hits if h["chunk_id"] in good]
+
+
+def trajectory(it, s, buried=False):
     """-> list of chat messages, or None if the source passage cannot be retrieved."""
     msgs = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": it["question"]}]
     need = set(it["source_chunks"])
@@ -138,8 +151,10 @@ def trajectory(it, s):
         thought = first if qi == 0 else "I have the first part. Now I need the second rule."
         msgs.append({"role": "assistant", "content": f'Thought: {thought}\nAction: search_docs("{q}")'})
         hits = s.search(q, K)
-        msgs.append({"role": "user", "content": "Observation:\n" + s.render(hits)})
         target = need - covered                      # multi-hop: whichever source is still missing
+        if buried:
+            hits = bury(hits, it, target)
+        msgs.append({"role": "user", "content": "Observation:\n" + s.render(hits)})
         got, cov = grounded(hits, it, target)
         old_seen |= any(h["status"] == "superseded" for h in hits)
         if target and not got:
@@ -163,8 +178,7 @@ def trajectory(it, s):
 
     if it["type"] == "not_covered":
         final = ("Thought: None of the results answer this question, so I should not guess.\n"
-                 "Final Answer: I could not find this in the IRDAI health-insurance documents I can search, "
-                 "so I can't answer it reliably.")
+                 f"Final Answer: {REFUSALS[0]}")
     else:
         if it["type"] == "superseded" and old_seen:
             thought = ("The 2020 standardization circular and the May 2024 master circular give different rules here. "
@@ -237,13 +251,48 @@ def main():
         retry.append({"messages": msgs, "type": it["type"], "aug": "retry"})
     kept += retry
 
+    # round 3a: same questions, but the answering passage is the last result, not the first
+    rb = random.Random(13)
+    cand = [it for it in train if it["type"] in ("single_hop", "superseded")]
+    rb.shuffle(cand)
+    buried = []
+    for it in cand:
+        if len(buried) >= BURY_MAX:
+            break
+        msgs = trajectory(it, s, buried=True)
+        if msgs:
+            buried.append({"messages": msgs, "type": it["type"], "aug": "buried"})
+    kept += buried
+
+    # round 3b: near-miss "not found": results on the right topic, with every passage that holds
+    # the answer removed (source chunk, its neighbours, and any chunk containing a key fact)
+    nearmiss = []
+    for it in cand[::-1]:
+        if len(nearmiss) >= NEARMISS_MAX:
+            break
+        src = set(it["source_chunks"]) | ({it["old_chunk"]} if it["type"] == "superseded" else set())
+        ban = {c + d for c in src for d in (-1, 0, 1)}
+        hits = [h for h in s.search(it["question"], 12) if h["chunk_id"] not in ban
+                and not any(verbatim(f, h["text"]) for f in it["facts"])][:K]
+        if len(hits) < K:
+            continue
+        msgs = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": it["question"]},
+                {"role": "assistant", "content": f'Thought: I should search the IRDAI rules for this.\nAction: search_docs("{it["question"]}")'},
+                {"role": "user", "content": "Observation:\n" + s.render(hits)},
+                {"role": "assistant", "content": "Thought: These results are on a related topic, but none of them "
+                                                 "says what the question asks, so I should not guess.\n"
+                                                 f"Final Answer: {rb.choice(REFUSALS[1:])}"}]
+        nearmiss.append({"messages": msgs, "type": "not_covered", "aug": "nearmiss"})
+    kept += nearmiss
+
     with open(os.path.join(ROOT, "data/sft/train.jsonl"), "w") as f:
         for r in kept:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
     count = lambda rows: {t: sum(r["type"] == t for r in rows) for t in TYPES}
     report = {"generated": n0, "after_dedupe": len(items), "train_items": count(train), "test_items": count(test),
-              "trajectories": count(kept), "retry_augmented": len(retry), "dropped_not_retrieved": dropped,
+              "trajectories": count(kept), "retry_augmented": len(retry), "buried_augmented": len(buried),
+              "nearmiss_augmented": len(nearmiss), "dropped_not_retrieved": dropped,
               "not_covered_share_train": round(count(kept)["not_covered"] / max(1, len(kept)), 3)}
     with open(os.path.join(QA, "report.json"), "w") as f:
         json.dump(report, f, indent=2)

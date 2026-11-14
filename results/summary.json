@@ -154,5 +154,83 @@
     "searches_per_q": 1.255,
     "cites_source": 0.312,
     "invalid_format": 9
+  },
+  {
+    "run": "tuned_v2_agent_fixparse",
+    "n": 98,
+    "key_fact_recall": 0.27,
+    "kfr_ci": [
+      0.179,
+      0.37
+    ],
+    "answer_overlap": 0.384,
+    "aov_ci": [
+      0.31,
+      0.461
+    ],
+    "false_not_found": 0.182,
+    "old_rule_rate": 0.125,
+    "old_ci": [
+      0.0,
+      0.375
+    ],
+    "not_found_f1": 0.542,
+    "not_found_precision": 0.481,
+    "not_found_recall": 0.619,
+    "searches_per_q": 1.347,
+    "cites_source": 0.312,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v3_800_agent",
+    "n": 98,
+    "key_fact_recall": 0.239,
+    "kfr_ci": [
+      0.16,
+      0.329
+    ],
+    "answer_overlap": 0.313,
+    "aov_ci": [
+      0.245,
+      0.385
+    ],
+    "false_not_found": 0.39,
+    "old_rule_rate": 0.125,
+    "old_ci": [
+      0.0,
+      0.375
+    ],
+    "not_found_f1": 0.522,
+    "not_found_precision": 0.375,
+    "not_found_recall": 0.857,
+    "searches_per_q": 1.102,
+    "cites_source": 0.286,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v3_agent",
+    "n": 98,
+    "key_fact_recall": 0.327,
+    "kfr_ci": [
+      0.23,
+      0.429
+    ],
+    "answer_overlap": 0.457,
+    "aov_ci": [
+      0.396,
+      0.524
+    ],
+    "false_not_found": 0.0,
+    "old_rule_rate": 0.5,
+    "old_ci": [
+      0.125,
+      0.875
+    ],
+    "not_found_f1": 0.5,
+    "not_found_precision": 1.0,
+    "not_found_recall": 0.333,
+    "searches_per_q": 1.041,
+    "cites_source": 0.455,
+    "invalid_format": 0
   }
 ]

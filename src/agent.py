@@ -27,6 +27,10 @@ Thought: <short reasoning>
 Final Answer: <answer with [chunk N] citations>"""
 
 ACTION = re.compile(r'Action:\s*search_docs\(\s*["\'](.+?)["\']\s*\)', re.S)
+# a search call the model never closed (greedy decoding can run off into "1 2 3 4 ..."):
+# keep the first few words as the query instead of throwing the whole turn away
+ACTION_OPEN = re.compile(r'Action:\s*search_docs\(\s*["\']([^"\'\n)]+)')
+OPEN_QUERY_WORDS = 12
 FINAL = re.compile(r"Final Answer:\s*(.+)", re.S)
 CITE = re.compile(r"\[chunk (\d+)\]")
 NOT_FOUND = re.compile(r"could ?n[o']t find|not (be )?found|not covered|no information|unable to find|"
@@ -41,6 +45,9 @@ def parse(reply):
         return "final", f.group(1).strip()
     if m:
         return "search", m.group(1).strip()
+    o = ACTION_OPEN.search(reply)
+    if o and not f:
+        return "search", " ".join(o.group(1).split()[:OPEN_QUERY_WORDS])
     return "invalid", reply.strip()
 
 

@@ -23,7 +23,7 @@ def main():
     train = trajs[n_val:]
     # cap the share of "not found" trajectories in training (v1 used 28% and over-refused)
     share = float(os.environ.get("NC_SHARE", "1"))
-    nc = [t for t in train if t["type"] == "not_covered"]
+    nc = sorted((t for t in train if t["type"] == "not_covered"), key=lambda t: t.get("aug") != "nearmiss")
     rest = [t for t in train if t["type"] != "not_covered"]
     cap = round(len(rest) * share / (1 - share)) if share < 1 else len(nc)
     train = rest + nc[:cap]
