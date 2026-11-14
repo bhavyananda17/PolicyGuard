@@ -1,0 +1,37 @@
+{
+  "peft_type": "LORA",
+  "task_type": "CAUSAL_LM",
+  "base_model_name_or_path": "CohereLabs/tiny-aya-global",
+  "r": 16,
+  "lora_alpha": 32.0,
+  "lora_dropout": 0.05,
+  "bias": "none",
+  "target_modules": [
+    "k_proj",
+    "o_proj",
+    "q_proj",
+    "v_proj"
+  ],
+  "layers_to_transform": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "fan_in_fan_out": false,
+  "inference_mode": true,
+  "use_rslora": false,
+  "use_dora": false
+}

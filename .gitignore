@@ -8,3 +8,7 @@ adapters/
 *.safetensors
 .DS_Store
 configs/lora_run.yaml
+hf/dataset/*.jsonl
+hf/dataset/*_summary.json
+hf/dataset/test_exclusions.json
+hf/model/mlx/adapter_config.json
