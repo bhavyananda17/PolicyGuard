@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "policyguard-demo",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": [
+        "demo/app.py"
+      ],
+      "port": 7860
+    },
+    {
+      "name": "policyguard-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--directory",
+        "demo_static"
+      ],
+      "port": 8765
+    }
+  ]
+}

@@ -5,6 +5,7 @@
 PolicyGuard answers questions about IRDAI health-insurance rules by searching the official circulars, citing the passages it used, and saying "I could not find this" instead of guessing. It was built for the [Lexsi AI Safety & Alignment Hackathon](https://hackathon.lexsi.ai/), Track 3 (Agentic Fine-tuning), problem statement 4: *fine-tuning for retrieval-augmented generation*. It also touches problem statements 5 (synthetic data) and 3 (distillation).
 
 - Base model: [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global)
+- **Demo:** [huggingface.co/spaces/bhavyananda17/policyguard-demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo): side-by-side answers on all 95 test questions, with grades and every search step
 - Adapter: [`bhavyananda17/policyguard-tiny-aya-global-lora`](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX formats)
 - Dataset: [`bhavyananda17/policyguard-irdai-qa`](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) (questions, trajectories, corpus)
 - Collection: [PolicyGuard (Lexsi hackathon)](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
@@ -143,6 +144,14 @@ Ask a single question (prints the full search transcript):
 python src/ask.py "What is the moratorium period for a health insurance policy?"
 python src/ask.py --adapter none "..."          # untrained model, for comparison
 ```
+
+Run the live demo locally (Gradio; compare tab plus live questions, about a minute per question on an M-series Mac):
+
+```bash
+python demo/app.py      # http://localhost:7860
+```
+
+The hosted demo is a static page (`demo_static/`), because free Gradio Spaces now need a paid plan; it shows the pre-run results only.
 
 Earlier rounds are in `scripts/overnight.sh` (data, baselines, v1), `scripts/round2.sh`, `scripts/round3.sh` and `scripts/round4.sh`; their logs are in `logs/` and every run's answers and transcripts are in `results/`.
 

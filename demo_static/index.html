@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PolicyGuard</title>
+<style>
+:root {
+  --bg: #fafaf8; --surface: #ffffff; --text: #1d1d1b; --muted: #66665f; --border: #e3e2dc;
+  --accent: #1f5f8b; --ok: #1f7a4a; --mid: #9a6b00; --bad: #b3261e; --code: #f3f2ee;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #151514; --surface: #1d1d1b; --text: #ecebe6; --muted: #a3a29b; --border: #33332f;
+          --accent: #7fb5dc; --ok: #6cc596; --mid: #e0b44f; --bad: #f08b84; --code: #262624; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+       font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 1.9rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 1.15rem; margin: 36px 0 12px; }
+.lede { color: var(--muted); margin: 0 0 20px; max-width: 70ch; }
+a { color: var(--accent); }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; background: var(--surface);
+        border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+th { font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.hl td { font-weight: 600; }
+.tablewrap { overflow-x: auto; }
+.note { color: var(--muted); font-size: 0.9rem; margin: 10px 0 0; max-width: 85ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px;
+        padding: 5px 12px; font-size: 0.88rem; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+select { width: 100%; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--border);
+         background: var(--surface); color: var(--text); font: inherit; font-size: 0.95rem; }
+.nav { display: flex; gap: 8px; margin-top: 8px; }
+.nav button { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 8px;
+              padding: 6px 12px; cursor: pointer; font: inherit; font-size: 0.88rem; }
+.ref { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+       border-radius: 8px; padding: 12px 14px; margin: 14px 0; }
+.ref b { display: block; font-size: 0.8rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; min-width: 0; }
+.card h3 { margin: 0 0 2px; font-size: 0.98rem; }
+.card .sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 10px; }
+.card.pg { border-color: var(--accent); }
+.verdict { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
+.v-ok { color: var(--ok); } .v-mid { color: var(--mid); } .v-bad { color: var(--bad); }
+.answer { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.93rem; }
+details { margin-top: 10px; }
+summary { cursor: pointer; color: var(--muted); font-size: 0.86rem; }
+.step { margin-top: 8px; font-size: 0.82rem; }
+.step .who { font-weight: 600; color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.step pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--code); border-radius: 6px;
+            padding: 8px; margin: 3px 0 0; font: 0.8rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+footer { margin-top: 48px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>PolicyGuard</h1>
+  <p class="lede">Tiny Aya Global (3.35B) fine-tuned with LoRA to act as a search agent for Indian health-insurance rules.
+    It searches two IRDAI circulars (May 2024 current, July 2020 replaced), cites the passages it used as
+    <code>[chunk N]</code>, and says it could not find an answer instead of guessing.
+    <a href="https://github.com/bhavyananda17/lexsi_labs_project">Code</a> ·
+    <a href="https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4">Model and dataset</a></p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Setup (same base model, same search index)</th><th class="num">Correct</th><th class="num">Correct or partly</th>
+      <th class="num">Cites the right passage</th><th class="num">Wrongly says "not found"</th></tr></thead>
+    <tbody>
+      <tr><td>Untrained Tiny Aya, agent loop</td><td class="num">4%</td><td class="num">24%</td><td class="num">3%</td><td class="num">14%</td></tr>
+      <tr class="hl"><td>PolicyGuard (fine-tuned), agent loop</td><td class="num">26%</td><td class="num">49%</td><td class="num">42%</td><td class="num">3%</td></tr>
+      <tr><td>Untrained Tiny Aya, always search once</td><td class="num">32%</td><td class="num">54%</td><td class="num">30%</td><td class="num">11%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">74 answerable held-out test questions, graded by an LLM judge (qwen3.8-27b) against reference answers.
+    Fine-tuning turns the untrained model, which rarely searches and invents citations, into a working search agent.
+    It does not beat a simple always-search pipeline on accuracy (95% CIs 16–35% vs 23–43% overlap); it cites better and rarely
+    refuses answerable questions. Not legal or financial advice.</p>
+
+  <h2>Compare answers on the test set</h2>
+  <div class="controls">
+    <div class="chips" id="chips" role="group" aria-label="Question type"></div>
+  </div>
+  <select id="pick" aria-label="Question"></select>
+  <div class="nav"><button id="prev">← Previous</button><button id="next">Next →</button><span id="count" class="note" style="margin:6px 0 0"></span></div>
+  <div class="ref" id="ref"></div>
+  <div class="grid" id="grid"></div>
+
+  <h2>Run it yourself</h2>
+  <p class="note" style="color:var(--text)">Live inference needs the gated base model (accept the license on
+    <a href="https://huggingface.co/CohereLabs/tiny-aya-global">CohereLabs/tiny-aya-global</a>).
+    On an Apple Silicon Mac: clone the <a href="https://github.com/bhavyananda17/lexsi_labs_project">repo</a> and run
+    <code>python src/ask.py "your question"</code>, which prints every search step. Elsewhere, load the
+    <a href="https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora">PEFT adapter</a> with transformers;
+    the model card has the snippet.</p>
+
+  <footer>Built for the Lexsi AI Safety &amp; Alignment Hackathon, Track 3 (Agentic Fine-tuning).
+    Source documents: public IRDAI circulars; IRDAI is not affiliated with this project.</footer>
+</main>
+<script>
+const SETUPS = [
+  ["untrained_agent", "Untrained Tiny Aya", "agent loop, model decides when to search"],
+  ["fixed_pipeline", "Untrained Tiny Aya", "fixed pipeline, always searches once"],
+  ["policyguard", "PolicyGuard", "fine-tuned, agent loop"],
+];
+const TYPES = [["all", "All"], ["single_hop", "One rule"], ["multi_hop", "Two rules"],
+               ["superseded", "Replaced rule"], ["not_covered", "Not in the documents"]];
+const TYPE_NAME = Object.fromEntries(TYPES);
+const VERDICT = {
+  "correct": ["Correct", "v-ok"], "partial": ["Partly correct", "v-mid"], "wrong": ["Wrong", "v-bad"],
+  "refused": ["Said “not found”, but the answer exists", "v-bad"],
+  "correct refusal": ["Correctly said “not found”", "v-ok"],
+  "answered anyway": ["Answered a question the documents don't cover", "v-bad"],
+};
+let DATA = [], view = [], kind = "all";
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+
+function stepsHtml(r) {
+  if (!r.steps.length) {
+    return `<div class="step"><div class="who">Searched once for the question</div><pre>${esc(r.queries[0] || "")}</pre>
+            <div class="note">Retrieved chunks: ${r.chunks.join(", ")}</div></div>`;
+  }
+  return r.steps.map((m) => {
+    const isModel = m.role === "assistant";
+    let body = isModel ? m.content : m.content.replace(/^Observation:\s*/, "");
+    if (!isModel && body.length > 1400) body = body.slice(0, 1400) + " …";
+    return `<div class="step"><div class="who">${isModel ? "Model" : "Search results"}</div><pre>${esc(body)}</pre></div>`;
+  }).join("");
+}
+
+function render() {
+  const e = view[+$("pick").value];
+  if (!e) return;
+  $("count").textContent = `${+$("pick").value + 1} of ${view.length}`;
+  $("ref").innerHTML = `<b>Reference answer · ${esc(TYPE_NAME[e.type])}</b>${esc(e.reference)}`;
+  $("grid").innerHTML = SETUPS.map(([key, title, sub]) => {
+    const r = e.runs[key];
+    const [label, cls] = VERDICT[r.verdict] || [r.verdict, ""];
+    return `<div class="card ${key === "policyguard" ? "pg" : ""}"><h3>${title}</h3><div class="sub">${sub}</div>
+      <div class="verdict ${cls}">${label}</div><div class="answer">${esc(r.answer || "(empty answer)")}</div>
+      <details><summary>Steps</summary>${stepsHtml(r)}</details></div>`;
+  }).join("");
+}
+
+function filter() {
+  view = DATA.filter((e) => kind === "all" || e.type === kind);
+  $("pick").innerHTML = view.map((e, i) => `<option value="${i}">${esc(e.question)}</option>`).join("");
+  $("pick").value = 0;
+  render();
+}
+
+function chips() {
+  $("chips").innerHTML = TYPES.map(([k, n]) => {
+    const c = k === "all" ? DATA.length : DATA.filter((e) => e.type === k).length;
+    return `<button class="chip" data-k="${k}" aria-pressed="${k === kind}">${n} (${c})</button>`;
+  }).join("");
+  $("chips").querySelectorAll("button").forEach((b) => b.onclick = () => { kind = b.dataset.k; chips(); filter(); });
+}
+
+$("pick").onchange = render;
+$("prev").onclick = () => { const v = +$("pick").value; if (v > 0) { $("pick").value = v - 1; render(); } };
+$("next").onclick = () => { const v = +$("pick").value; if (v < view.length - 1) { $("pick").value = v + 1; render(); } };
+
+fetch("examples.json").then((r) => r.json()).then((d) => {
+  DATA = d; chips(); filter();
+  const start = view.findIndex((e) => e.id === "test-0001");   // the README example
+  if (start > 0) { $("pick").value = start; render(); }
+})
+  .catch(() => { $("ref").textContent = "Could not load examples.json."; });
+</script>
+</body>
+</html>
