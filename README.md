@@ -5,8 +5,8 @@
 PolicyGuard answers questions about IRDAI health-insurance rules by searching the official circulars, citing the passages it used, and saying "I could not find this" instead of guessing. It was built for the [Lexsi AI Safety & Alignment Hackathon](https://hackathon.lexsi.ai/), Track 3 (Agentic Fine-tuning), problem statement 4: *fine-tuning for retrieval-augmented generation*. It also touches problem statements 5 (synthetic data) and 3 (distillation).
 
 - Base model: [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global)
-- Adapter: `bhavyananda17/policyguard-tiny-aya-global-lora` on Hugging Face *(link live after upload)*
-- Dataset: `bhavyananda17/policyguard-irdai-qa` on Hugging Face *(link live after upload)*
+- Adapter: [`bhavyananda17/policyguard-tiny-aya-global-lora`](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX formats)
+- Dataset: [`bhavyananda17/policyguard-irdai-qa`](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) (questions, trajectories, corpus)
 - Hardware: one MacBook Pro (M5 Pro, 24 GB). Training: about 50 minutes with MLX. Cost: zero (free Groq tier for data generation).
 
 ## Why this problem
