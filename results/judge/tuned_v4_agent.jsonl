@@ -34,7 +34,7 @@
 {"id": "test-0034", "type": "single_hop", "verdict": "wrong", "reason": "Does not state the rule; only cites section numbers."}
 {"id": "test-0035", "type": "single_hop", "verdict": "partial", "reason": "Misses occupation loading and conditional nature of health loading."}
 {"id": "test-0036", "type": "single_hop", "verdict": "correct", "reason": "Correctly states insurer does not bear full cost."}
-{"id": "test-0037", "type": "single_hop", "verdict": "wrong", "reason": "Invents a 24-month period not in source."}
+{"id": "test-0037", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0038", "type": "single_hop", "verdict": "partial", "reason": "Adds incorrect requirements like reinsurance rates and treaty submission."}
 {"id": "test-0039", "type": "single_hop", "verdict": "partial", "reason": "Misses requirement to confirm alignment with Board-approved program."}
 {"id": "test-0040", "type": "single_hop", "verdict": "partial", "reason": "Misses conditional requirement to state if formulae are used."}
@@ -56,7 +56,7 @@
 {"id": "test-0056", "type": "single_hop", "verdict": "wrong", "reason": "Cites incorrect circular and date"}
 {"id": "test-0057", "type": "single_hop", "verdict": "wrong", "reason": "Cites incorrect date and circular, not the 2023 terminology guidelines."}
 {"id": "test-0058", "type": "single_hop", "verdict": "wrong", "reason": "Cites Master Circular instead of specific 2020 circular."}
-{"id": "test-0059", "type": "single_hop", "verdict": "wrong", "reason": "Fails to state the specific deadline date 21-07-2020."}
+{"id": "test-0059", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0060", "type": "single_hop", "verdict": "wrong", "reason": "Cites wrong circular and date instead of the specific 2021 circular."}
 {"id": "test-0061", "type": "multi_hop", "verdict": "wrong", "reason": "Incorrect notice period (30 days instead of 90)."}
 {"id": "test-0063", "type": "multi_hop", "verdict": "partial", "reason": "Misses the 30.09.2024 modification deadline requirement."}

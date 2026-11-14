@@ -12,15 +12,15 @@
       0.307,
       0.419
     ],
-    "false_not_found": 0.122,
+    "false_not_found": 0.135,
     "old_rule_rate": 0.25,
     "old_ci": [
       0.0,
       0.625
     ],
-    "not_found_f1": 0.182,
-    "not_found_precision": 0.25,
-    "not_found_recall": 0.143,
+    "not_found_f1": 0.229,
+    "not_found_precision": 0.286,
+    "not_found_recall": 0.19,
     "searches_per_q": 0.105,
     "cites_source": 0.027,
     "invalid_format": 0
@@ -38,15 +38,15 @@
       0.204,
       0.34
     ],
-    "false_not_found": 0.068,
+    "false_not_found": 0.135,
     "old_rule_rate": 0.375,
     "old_ci": [
       0.125,
       0.75
     ],
-    "not_found_f1": 0.323,
-    "not_found_precision": 0.5,
-    "not_found_recall": 0.238,
+    "not_found_f1": 0.368,
+    "not_found_precision": 0.412,
+    "not_found_recall": 0.333,
     "searches_per_q": 0.6,
     "cites_source": 0.176,
     "invalid_format": 0
@@ -64,15 +64,15 @@
       0.602,
       0.705
     ],
-    "false_not_found": 0.041,
+    "false_not_found": 0.108,
     "old_rule_rate": 0.5,
     "old_ci": [
       0.125,
       0.875
     ],
-    "not_found_f1": 0.222,
-    "not_found_precision": 0.5,
-    "not_found_recall": 0.143,
+    "not_found_f1": 0.513,
+    "not_found_precision": 0.556,
+    "not_found_recall": 0.476,
     "searches_per_q": 1.0,
     "cites_source": 0.297,
     "invalid_format": 0
@@ -90,14 +90,14 @@
       0.407,
       0.511
     ],
-    "false_not_found": 0.041,
+    "false_not_found": 0.054,
     "old_rule_rate": 0.375,
     "old_ci": [
       0.125,
       0.75
     ],
-    "not_found_f1": 0.286,
-    "not_found_precision": 0.571,
+    "not_found_f1": 0.276,
+    "not_found_precision": 0.5,
     "not_found_recall": 0.19,
     "searches_per_q": 0.0,
     "cites_source": 0.0,
@@ -116,44 +116,18 @@
       0.274,
       0.426
     ],
-    "false_not_found": 0.23,
+    "false_not_found": 0.257,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.593,
-    "not_found_precision": 0.485,
+    "not_found_f1": 0.571,
+    "not_found_precision": 0.457,
     "not_found_recall": 0.762,
     "searches_per_q": 1.0,
     "cites_source": 0.257,
     "invalid_format": 0
-  },
-  {
-    "run": "tuned_v2_agent",
-    "n": 95,
-    "key_fact_recall": 0.271,
-    "kfr_ci": [
-      0.172,
-      0.372
-    ],
-    "answer_overlap": 0.382,
-    "aov_ci": [
-      0.309,
-      0.464
-    ],
-    "false_not_found": 0.243,
-    "old_rule_rate": 0.125,
-    "old_ci": [
-      0.0,
-      0.375
-    ],
-    "not_found_f1": 0.582,
-    "not_found_precision": 0.471,
-    "not_found_recall": 0.762,
-    "searches_per_q": 1.253,
-    "cites_source": 0.311,
-    "invalid_format": 9
   },
   {
     "run": "tuned_v2_agent_fixparse",
@@ -168,43 +142,17 @@
       0.325,
       0.481
     ],
-    "false_not_found": 0.162,
+    "false_not_found": 0.176,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.565,
-    "not_found_precision": 0.52,
+    "not_found_f1": 0.553,
+    "not_found_precision": 0.5,
     "not_found_recall": 0.619,
     "searches_per_q": 1.347,
     "cites_source": 0.311,
-    "invalid_format": 0
-  },
-  {
-    "run": "tuned_v3_800_agent",
-    "n": 95,
-    "key_fact_recall": 0.249,
-    "kfr_ci": [
-      0.158,
-      0.343
-    ],
-    "answer_overlap": 0.326,
-    "aov_ci": [
-      0.257,
-      0.404
-    ],
-    "false_not_found": 0.365,
-    "old_rule_rate": 0.125,
-    "old_ci": [
-      0.0,
-      0.375
-    ],
-    "not_found_f1": 0.545,
-    "not_found_precision": 0.4,
-    "not_found_recall": 0.857,
-    "searches_per_q": 1.105,
-    "cites_source": 0.297,
     "invalid_format": 0
   },
   {
@@ -246,14 +194,14 @@
       0.462,
       0.583
     ],
-    "false_not_found": 0.0,
+    "false_not_found": 0.027,
     "old_rule_rate": 0.5,
     "old_ci": [
       0.125,
       0.875
     ],
-    "not_found_f1": 0.5,
-    "not_found_precision": 1.0,
+    "not_found_f1": 0.467,
+    "not_found_precision": 0.778,
     "not_found_recall": 0.333,
     "searches_per_q": 1.074,
     "cites_source": 0.419,

@@ -34,7 +34,8 @@ OPEN_QUERY_WORDS = 12
 FINAL = re.compile(r"Final Answer:\s*(.+)", re.S)
 CITE = re.compile(r"\[chunk (\d+)\]")
 NOT_FOUND = re.compile(r"could ?n[o']t find|not (be )?found|not covered|no information|unable to find|"
-                       r"do(es)? not (answer|cover|mention|contain)|don'?t have (enough )?information", re.I)
+                       r"do(es)? not (answer|cover|mention|contain)|don'?t have (enough )?information|"
+                       r"not (explicitly |specifically |directly )?(stated|mentioned|specified|addressed)", re.I)
 
 
 def parse(reply):

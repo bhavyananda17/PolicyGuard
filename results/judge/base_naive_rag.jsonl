@@ -15,7 +15,7 @@
 {"id": "test-0014", "type": "single_hop", "verdict": "correct", "reason": "Accurately identifies both types and their definitions."}
 {"id": "test-0015", "type": "single_hop", "verdict": "partial", "reason": "Misses the combination of Indemnity and Benefit category."}
 {"id": "test-0016", "type": "single_hop", "verdict": "partial", "reason": "Misses the specific percentage value for claim coverage."}
-{"id": "test-0017", "type": "single_hop", "verdict": "wrong", "reason": "Invents specific 15-day limit not in reference."}
+{"id": "test-0017", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0018", "type": "single_hop", "verdict": "correct", "reason": "Correctly states the waiting period and its non-applicability to accidents."}
 {"id": "test-0019", "type": "single_hop", "verdict": "wrong", "reason": "Reference uses placeholder xx, answer gives specific 48 months."}
 {"id": "test-0020", "type": "single_hop", "verdict": "correct", "reason": "Accurately lists all four types of financial limits with correct definitions."}
@@ -34,7 +34,7 @@
 {"id": "test-0034", "type": "single_hop", "verdict": "partial", "reason": "Vague; fails to state that specified risk classes require exams."}
 {"id": "test-0035", "type": "single_hop", "verdict": "partial", "reason": "Misses requirement to furnish details of loadings"}
 {"id": "test-0036", "type": "single_hop", "verdict": "partial", "reason": "Vague 'may or may not' contradicts definitive 'No'."}
-{"id": "test-0037", "type": "single_hop", "verdict": "wrong", "reason": "Invents specific months not in reference; reference says see table."}
+{"id": "test-0037", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0038", "type": "single_hop", "verdict": "wrong", "reason": "Adds incorrect requirements like retention limits and reinsurer names."}
 {"id": "test-0039", "type": "single_hop", "verdict": "correct", "reason": "Correctly states submission of program and treaty."}
 {"id": "test-0040", "type": "single_hop", "verdict": "partial", "reason": "Adds unsupported requirement about source of data."}
@@ -44,8 +44,8 @@
 {"id": "test-0044", "type": "single_hop", "verdict": "wrong", "reason": "Cites incorrect section number 5.21 instead of 4.20"}
 {"id": "test-0045", "type": "single_hop", "verdict": "correct", "reason": "Accurately states the requirement to furnish rate tables for both."}
 {"id": "test-0046", "type": "single_hop", "verdict": "partial", "reason": "Misses the specific field title mentioned in reference."}
-{"id": "test-0047", "type": "single_hop", "verdict": "wrong", "reason": "Fails to identify the specific field name for the date."}
-{"id": "test-0048", "type": "single_hop", "verdict": "wrong", "reason": "Claims notice period is not explicitly mentioned."}
+{"id": "test-0047", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
+{"id": "test-0048", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0049", "type": "single_hop", "verdict": "wrong", "reason": "Contradicts reference; rule does not apply to life insurers."}
 {"id": "test-0050", "type": "single_hop", "verdict": "wrong", "reason": "States 7 days instead of the correct 90 days."}
 {"id": "test-0051", "type": "single_hop", "verdict": "correct", "reason": "Matches the reference date exactly."}
@@ -58,7 +58,7 @@
 {"id": "test-0058", "type": "single_hop", "verdict": "wrong", "reason": "Cites wrong circular; fails to identify the 2020 circular."}
 {"id": "test-0059", "type": "single_hop", "verdict": "wrong", "reason": "Claims no deadline exists, contradicting the reference date."}
 {"id": "test-0060", "type": "single_hop", "verdict": "wrong", "reason": "Cites incorrect circular number and date."}
-{"id": "test-0061", "type": "multi_hop", "verdict": "wrong", "reason": "Fails to state the required 90-day notice period."}
+{"id": "test-0061", "type": "multi_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0063", "type": "multi_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0064", "type": "multi_hop", "verdict": "partial", "reason": "Misses requirement for consent in every instance for sharing records."}
 {"id": "test-0066", "type": "multi_hop", "verdict": "wrong", "reason": "Fails to state that complete application is required."}

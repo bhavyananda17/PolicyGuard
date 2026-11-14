@@ -58,7 +58,7 @@
 {"id": "test-0058", "type": "single_hop", "verdict": "wrong", "reason": "Does not identify the specific circular or date."}
 {"id": "test-0059", "type": "single_hop", "verdict": "wrong", "reason": "Gives incorrect date 1 May 2021 instead of 21-07-2020."}
 {"id": "test-0060", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
-{"id": "test-0061", "type": "multi_hop", "verdict": "wrong", "reason": "Claims notice period is unspecified, contradicting the 90-day rule."}
+{"id": "test-0061", "type": "multi_hop", "verdict": "refused", "reason": "said it could not find the answer"}
 {"id": "test-0063", "type": "multi_hop", "verdict": "partial", "reason": "Misses the requirement to modify products by 30.09.2024."}
 {"id": "test-0064", "type": "multi_hop", "verdict": "partial", "reason": "Misses requirement for consent in every instance."}
 {"id": "test-0066", "type": "multi_hop", "verdict": "wrong", "reason": "Incorrectly states benefit structure always changes upon modification."}
