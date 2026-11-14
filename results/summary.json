@@ -1,18 +1,18 @@
 [
   {
     "run": "base_agent",
-    "n": 98,
-    "key_fact_recall": 0.134,
+    "n": 95,
+    "key_fact_recall": 0.119,
     "kfr_ci": [
-      0.063,
-      0.21
+      0.054,
+      0.194
     ],
-    "answer_overlap": 0.366,
+    "answer_overlap": 0.365,
     "aov_ci": [
-      0.314,
-      0.424
+      0.307,
+      0.419
     ],
-    "false_not_found": 0.117,
+    "false_not_found": 0.122,
     "old_rule_rate": 0.25,
     "old_ci": [
       0.0,
@@ -21,50 +21,50 @@
     "not_found_f1": 0.182,
     "not_found_precision": 0.25,
     "not_found_recall": 0.143,
-    "searches_per_q": 0.102,
-    "cites_source": 0.026,
+    "searches_per_q": 0.105,
+    "cites_source": 0.027,
     "invalid_format": 0
   },
   {
     "run": "base_agent_force",
-    "n": 98,
-    "key_fact_recall": 0.12,
+    "n": 95,
+    "key_fact_recall": 0.118,
     "kfr_ci": [
-      0.061,
-      0.192
+      0.051,
+      0.191
     ],
-    "answer_overlap": 0.27,
+    "answer_overlap": 0.271,
     "aov_ci": [
-      0.209,
-      0.335
+      0.204,
+      0.34
     ],
-    "false_not_found": 0.078,
+    "false_not_found": 0.068,
     "old_rule_rate": 0.375,
     "old_ci": [
       0.125,
       0.75
     ],
-    "not_found_f1": 0.312,
-    "not_found_precision": 0.455,
+    "not_found_f1": 0.323,
+    "not_found_precision": 0.5,
     "not_found_recall": 0.238,
-    "searches_per_q": 0.602,
-    "cites_source": 0.182,
+    "searches_per_q": 0.6,
+    "cites_source": 0.176,
     "invalid_format": 0
   },
   {
     "run": "base_naive_rag",
-    "n": 98,
-    "key_fact_recall": 0.594,
+    "n": 95,
+    "key_fact_recall": 0.598,
     "kfr_ci": [
-      0.498,
-      0.694
-    ],
-    "answer_overlap": 0.65,
-    "aov_ci": [
-      0.599,
+      0.5,
       0.699
     ],
-    "false_not_found": 0.039,
+    "answer_overlap": 0.655,
+    "aov_ci": [
+      0.602,
+      0.705
+    ],
+    "false_not_found": 0.041,
     "old_rule_rate": 0.5,
     "old_ci": [
       0.125,
@@ -74,30 +74,30 @@
     "not_found_precision": 0.5,
     "not_found_recall": 0.143,
     "searches_per_q": 1.0,
-    "cites_source": 0.325,
+    "cites_source": 0.297,
     "invalid_format": 0
   },
   {
     "run": "base_no_tools",
-    "n": 98,
-    "key_fact_recall": 0.176,
+    "n": 95,
+    "key_fact_recall": 0.177,
     "kfr_ci": [
-      0.104,
-      0.26
+      0.096,
+      0.267
     ],
-    "answer_overlap": 0.461,
+    "answer_overlap": 0.46,
     "aov_ci": [
-      0.414,
+      0.407,
       0.511
     ],
-    "false_not_found": 0.052,
+    "false_not_found": 0.041,
     "old_rule_rate": 0.375,
     "old_ci": [
       0.125,
       0.75
     ],
-    "not_found_f1": 0.276,
-    "not_found_precision": 0.5,
+    "not_found_f1": 0.286,
+    "not_found_precision": 0.571,
     "not_found_recall": 0.19,
     "searches_per_q": 0.0,
     "cites_source": 0.0,
@@ -105,120 +105,120 @@
   },
   {
     "run": "tuned_agent",
-    "n": 98,
-    "key_fact_recall": 0.171,
+    "n": 95,
+    "key_fact_recall": 0.178,
     "kfr_ci": [
-      0.1,
-      0.26
+      0.103,
+      0.27
     ],
-    "answer_overlap": 0.333,
+    "answer_overlap": 0.346,
     "aov_ci": [
-      0.265,
-      0.409
+      0.274,
+      0.426
     ],
-    "false_not_found": 0.26,
+    "false_not_found": 0.23,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.561,
-    "not_found_precision": 0.444,
+    "not_found_f1": 0.593,
+    "not_found_precision": 0.485,
     "not_found_recall": 0.762,
     "searches_per_q": 1.0,
-    "cites_source": 0.247,
+    "cites_source": 0.257,
     "invalid_format": 0
   },
   {
     "run": "tuned_v2_agent",
-    "n": 98,
-    "key_fact_recall": 0.267,
+    "n": 95,
+    "key_fact_recall": 0.271,
     "kfr_ci": [
-      0.176,
-      0.366
+      0.172,
+      0.372
     ],
-    "answer_overlap": 0.37,
+    "answer_overlap": 0.382,
     "aov_ci": [
-      0.297,
-      0.447
+      0.309,
+      0.464
     ],
-    "false_not_found": 0.26,
+    "false_not_found": 0.243,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.561,
-    "not_found_precision": 0.444,
+    "not_found_f1": 0.582,
+    "not_found_precision": 0.471,
     "not_found_recall": 0.762,
-    "searches_per_q": 1.255,
-    "cites_source": 0.312,
+    "searches_per_q": 1.253,
+    "cites_source": 0.311,
     "invalid_format": 9
   },
   {
     "run": "tuned_v2_agent_fixparse",
-    "n": 98,
-    "key_fact_recall": 0.27,
+    "n": 95,
+    "key_fact_recall": 0.274,
     "kfr_ci": [
-      0.179,
-      0.37
+      0.174,
+      0.377
     ],
-    "answer_overlap": 0.384,
+    "answer_overlap": 0.397,
     "aov_ci": [
-      0.31,
-      0.461
+      0.325,
+      0.481
     ],
-    "false_not_found": 0.182,
+    "false_not_found": 0.162,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.542,
-    "not_found_precision": 0.481,
+    "not_found_f1": 0.565,
+    "not_found_precision": 0.52,
     "not_found_recall": 0.619,
     "searches_per_q": 1.347,
-    "cites_source": 0.312,
+    "cites_source": 0.311,
     "invalid_format": 0
   },
   {
     "run": "tuned_v3_800_agent",
-    "n": 98,
-    "key_fact_recall": 0.239,
+    "n": 95,
+    "key_fact_recall": 0.249,
     "kfr_ci": [
-      0.16,
-      0.329
+      0.158,
+      0.343
     ],
-    "answer_overlap": 0.313,
+    "answer_overlap": 0.326,
     "aov_ci": [
-      0.245,
-      0.385
+      0.257,
+      0.404
     ],
-    "false_not_found": 0.39,
+    "false_not_found": 0.365,
     "old_rule_rate": 0.125,
     "old_ci": [
       0.0,
       0.375
     ],
-    "not_found_f1": 0.522,
-    "not_found_precision": 0.375,
+    "not_found_f1": 0.545,
+    "not_found_precision": 0.4,
     "not_found_recall": 0.857,
-    "searches_per_q": 1.102,
-    "cites_source": 0.286,
+    "searches_per_q": 1.105,
+    "cites_source": 0.297,
     "invalid_format": 0
   },
   {
     "run": "tuned_v3_agent",
-    "n": 98,
-    "key_fact_recall": 0.327,
+    "n": 95,
+    "key_fact_recall": 0.32,
     "kfr_ci": [
-      0.23,
-      0.429
+      0.222,
+      0.426
     ],
-    "answer_overlap": 0.457,
+    "answer_overlap": 0.455,
     "aov_ci": [
-      0.396,
-      0.524
+      0.399,
+      0.519
     ],
     "false_not_found": 0.0,
     "old_rule_rate": 0.5,
@@ -229,8 +229,34 @@
     "not_found_f1": 0.5,
     "not_found_precision": 1.0,
     "not_found_recall": 0.333,
-    "searches_per_q": 1.041,
-    "cites_source": 0.455,
+    "searches_per_q": 1.042,
+    "cites_source": 0.459,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v4_agent",
+    "n": 95,
+    "key_fact_recall": 0.323,
+    "kfr_ci": [
+      0.219,
+      0.426
+    ],
+    "answer_overlap": 0.521,
+    "aov_ci": [
+      0.462,
+      0.583
+    ],
+    "false_not_found": 0.0,
+    "old_rule_rate": 0.5,
+    "old_ci": [
+      0.125,
+      0.875
+    ],
+    "not_found_f1": 0.5,
+    "not_found_precision": 1.0,
+    "not_found_recall": 0.333,
+    "searches_per_q": 1.074,
+    "cites_source": 0.419,
     "invalid_format": 0
   }
 ]

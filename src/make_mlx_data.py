@@ -15,7 +15,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def main():
-    with open(os.path.join(ROOT, "data/sft/train.jsonl")) as f:
+    sft = os.environ.get("SFT_FILE", "data/sft/train.jsonl")
+    out_dir = os.environ.get("MLX_OUT", "data/mlx")
+    with open(os.path.join(ROOT, sft)) as f:
         trajs = [json.loads(l) for l in f]
     rnd = random.Random(3)
     rnd.shuffle(trajs)
@@ -29,7 +31,7 @@ def main():
     train = rest + nc[:cap]
     print("not_covered in train:", min(cap, len(nc)), "of", len(train))
     out = {"valid": trajs[:n_val], "train": train}
-    os.makedirs(os.path.join(ROOT, "data/mlx"), exist_ok=True)
+    os.makedirs(os.path.join(ROOT, out_dir), exist_ok=True)
     for name, rows in out.items():
         ex = []
         for t in rows:
@@ -38,7 +40,7 @@ def main():
                 if msg["role"] == "assistant":
                     ex.append({"messages": m[:i + 1]})
         rnd.shuffle(ex)
-        with open(os.path.join(ROOT, f"data/mlx/{name}.jsonl"), "w") as f:
+        with open(os.path.join(ROOT, out_dir, f"{name}.jsonl"), "w") as f:
             for e in ex:
                 f.write(json.dumps(e, ensure_ascii=False) + "\n")
         print(name, len(rows), "trajectories ->", len(ex), "examples")

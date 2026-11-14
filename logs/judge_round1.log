@@ -1,0 +1,6 @@
+run | n | correct | correct_ci | correct+partial | wrong | refused
+base_naive_rag | 74 | 0.324 | (0.23, 0.432) | 0.541 | 0.419 | 0.041
+tuned_v3_agent | 74 | 0.257 | (0.162, 0.365) | 0.446 | 0.554 | 0.0
+base_agent | 74 | 0.041 | (0.0, 0.081) | 0.243 | 0.635 | 0.122
+tuned_v2_agent_fixparse | 74 | 0.243 | (0.162, 0.351) | 0.446 | 0.392 | 0.162
+groq usage: {'calls': 263, 'cached': 9, 'prompt_tokens': 80884, 'completion_tokens': 6438}

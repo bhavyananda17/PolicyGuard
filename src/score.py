@@ -65,9 +65,12 @@ def boot(vals, n=1000):
     return round(means[int(0.025 * n)], 3), round(means[int(0.975 * n)], 3)
 
 
+EXCLUDED = set()
+
+
 def score(path, items):
     with open(path) as f:
-        rows = [json.loads(l) for l in f]
+        rows = [json.loads(l) for l in f if json.loads(l)["id"] not in EXCLUDED]
     kfr, old, cites, srch, aov, fnf = [], [], [], [], [], []
     tp = fp = fn = 0
     for r in rows:
@@ -110,6 +113,10 @@ def main():
                 for line in f:
                     it = json.loads(line)
                     items[it["id"]] = it
+    ex_path = os.path.join(ROOT, "data/qa/test_exclusions.json")
+    if os.path.exists(ex_path):                       # broken reference answers, reasons in the file
+        with open(ex_path) as f:
+            EXCLUDED.update(json.load(f)["ids"])
     res = [score(p, items) for p in sys.argv[1:]]
     cols = ["run", "n", "key_fact_recall", "answer_overlap", "false_not_found", "old_rule_rate", "not_found_f1", "searches_per_q", "cites_source", "invalid_format"]
     print(" | ".join(cols))

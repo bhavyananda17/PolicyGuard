@@ -1,0 +1,29 @@
+[17:36:37] waiting for the untrained-model answers on the training questions
+{
+  "replaced": 79,
+  "kept_teacher": 206,
+  "skip_multi_search": 105,
+  "skip_other_results": 0,
+  "reject_quality": 101
+}
+not_covered in train: 68 of 339
+valid 18 trajectories -> 41 examples
+train 339 trajectories -> 781 examples
+[17:47:58] train v4 examples=781 iters=1171
+[18:33:18] eval tuned_v4_agent
+run | n | key_fact_recall | answer_overlap | false_not_found | old_rule_rate | not_found_f1 | searches_per_q | cites_source | invalid_format
+base_agent | 95 | 0.119 | 0.365 | 0.122 | 0.25 | 0.182 | 0.105 | 0.027 | 0
+base_agent_force | 95 | 0.118 | 0.271 | 0.068 | 0.375 | 0.323 | 0.6 | 0.176 | 0
+base_naive_rag | 95 | 0.598 | 0.655 | 0.041 | 0.5 | 0.222 | 1.0 | 0.297 | 0
+base_no_tools | 95 | 0.177 | 0.46 | 0.041 | 0.375 | 0.286 | 0.0 | 0.0 | 0
+tuned_agent | 95 | 0.178 | 0.346 | 0.23 | 0.125 | 0.593 | 1.0 | 0.257 | 0
+tuned_v2_agent | 95 | 0.271 | 0.382 | 0.243 | 0.125 | 0.582 | 1.253 | 0.311 | 9
+tuned_v2_agent_fixparse | 95 | 0.274 | 0.397 | 0.162 | 0.125 | 0.565 | 1.347 | 0.311 | 0
+tuned_v3_800_agent | 95 | 0.249 | 0.326 | 0.365 | 0.125 | 0.545 | 1.105 | 0.297 | 0
+tuned_v3_agent | 95 | 0.32 | 0.455 | 0.0 | 0.5 | 0.5 | 1.042 | 0.459 | 0
+tuned_v4_agent | 95 | 0.323 | 0.521 | 0.0 | 0.5 | 0.5 | 1.074 | 0.419 | 0
+[18:38:58] judge v4
+run | n | correct | correct_ci | correct+partial | wrong | refused
+tuned_v4_agent | 74 | 0.257 | (0.162, 0.351) | 0.486 | 0.514 | 0.0
+groq usage: {'calls': 69, 'cached': 5, 'prompt_tokens': 20887, 'completion_tokens': 1726}
+[18:40:59] ROUND4 DONE
