@@ -7,6 +7,8 @@
   not_found_f1      : F1 for saying "not found" on not_covered items vs answering on answerable ones
   searches_per_q    : mean number of search_docs calls
   cites_source      : answerable items whose answer cites a source chunk of that item
+  cites_answer      : answerable items whose answer cites a chunk that is a source chunk OR contains a key fact
+                      (chunks overlap, so the neighbour of a source chunk often holds the same sentence)
 
     python src/score.py results/*.jsonl          # prints a table, writes results/summary.json
 """
@@ -68,10 +70,25 @@ def boot(vals, n=1000):
 EXCLUDED = set()
 
 
+_CHUNKS = None
+
+
+def _norm(t):
+    return re.sub(r"\s+", " ", t.lower()).strip()
+
+
+def holds_fact(cid, it):
+    global _CHUNKS
+    if _CHUNKS is None:
+        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data/index/chunks.jsonl")) as f:
+            _CHUNKS = {c["chunk_id"]: _norm(c["text"]) for c in map(json.loads, f)}
+    return cid in it["source_chunks"] or any(_norm(fc)[:40] in _CHUNKS.get(cid, "") for fc in it["facts"])
+
+
 def score(path, items):
     with open(path) as f:
         rows = [json.loads(l) for l in f if json.loads(l)["id"] not in EXCLUDED]
-    kfr, old, cites, srch, aov, fnf = [], [], [], [], [], []
+    kfr, old, cites, cans, srch, aov, fnf = [], [], [], [], [], [], []
     tp = fp = fn = 0
     for r in rows:
         it = items[r["id"]]
@@ -88,6 +105,7 @@ def score(path, items):
         aov.append(len(ref & set(toks(a))) / len(ref) if ref else 0.0)
         kfr.append(sum(fact_hit(f, a) for f in it["facts"]) / len(it["facts"]))
         cites.append(any(int(c) in it["source_chunks"] for c in CITE.findall(a)))
+        cans.append(any(holds_fact(int(c), it) for c in CITE.findall(a)))
         if it["type"] == "superseded":
             old.append(old_rule_used(it, a))
     prec = tp / (tp + fp) if tp + fp else 0.0
@@ -101,6 +119,7 @@ def score(path, items):
             "not_found_f1": round(2 * prec * rec / (prec + rec), 3) if prec + rec else 0.0,
             "not_found_precision": round(prec, 3), "not_found_recall": round(rec, 3),
             "searches_per_q": m(srch), "cites_source": m([float(x) for x in cites]),
+            "cites_answer": m([float(x) for x in cans]),
             "invalid_format": sum(r.get("invalid_format", 0) for r in rows)}
 
 
@@ -118,7 +137,7 @@ def main():
         with open(ex_path) as f:
             EXCLUDED.update(json.load(f)["ids"])
     res = [score(p, items) for p in sys.argv[1:]]
-    cols = ["run", "n", "key_fact_recall", "answer_overlap", "false_not_found", "old_rule_rate", "not_found_f1", "searches_per_q", "cites_source", "invalid_format"]
+    cols = ["run", "n", "key_fact_recall", "answer_overlap", "false_not_found", "old_rule_rate", "not_found_f1", "searches_per_q", "cites_source", "cites_answer", "invalid_format"]
     print(" | ".join(cols))
     for r in res:
         print(" | ".join(str(r[c]) for c in cols))

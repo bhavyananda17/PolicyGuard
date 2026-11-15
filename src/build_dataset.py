@@ -37,8 +37,11 @@ REFUSALS = [
     "The search results are about related rules, but none of them states this. I could not find the answer in the IRDAI documents.",
     "I could not find a rule on this in the IRDAI documents I searched, so I won't guess.",
 ]
-K = 4
+K = int(os.environ.get("BUILD_K", 4))            # v5: 6 results per search
+KEYWORD_SHARE = float(os.environ.get("KEYWORD_SHARE", 0))  # v5: share of first searches written as keywords
+SFT_OUT = os.environ.get("SFT_OUT", "data/sft/train.jsonl")
 rnd = random.Random(7)
+rkw = random.Random(17)
 
 STOP = set("the a an of to in on for and or is are be by with as at from that this which shall any its it under such "
            "will can may must if not no all per has have been their them they other than".split())
@@ -142,7 +145,12 @@ def trajectory(it, s, buried=False):
     """-> list of chat messages, or None if the source passage cannot be retrieved."""
     msgs = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": it["question"]}]
     need = set(it["source_chunks"])
-    queries = it.get("sub_queries") or [it["question"]]
+    queries = list(it.get("sub_queries") or [it["question"]])
+    if (KEYWORD_SHARE and not it.get("sub_queries") and it["type"] != "not_covered"
+            and rkw.random() < KEYWORD_SHARE):
+        kq = short_query(it["question"])               # keyword query, kept only if it finds the source
+        if len(kq.split()) >= 3 and grounded(s.search(kq, K), it, need)[0]:
+            queries = [kq]
     cited, covered, old_seen = set(), set(), False
     first = rnd.choice(["I need to check what the IRDAI documents say about this.",
                         "I should search the IRDAI rules for this.",
@@ -206,7 +214,7 @@ def main():
     items = rest + nc
     train, test = split(items)
     os.makedirs(os.path.join(ROOT, "data/sft"), exist_ok=True)
-    for name, rows in (("train", train), ("test", test)):
+    for name, rows in (("train", train), ("test", test)) if SFT_OUT == "data/sft/train.jsonl" else ():
         with open(os.path.join(QA, f"{name}.jsonl"), "w") as f:
             for i, it in enumerate(rows):
                 f.write(json.dumps(dict(it, id=f"{name}-{i:04d}"), ensure_ascii=False) + "\n")
@@ -285,7 +293,7 @@ def main():
         nearmiss.append({"messages": msgs, "type": "not_covered", "aug": "nearmiss"})
     kept += nearmiss
 
-    with open(os.path.join(ROOT, "data/sft/train.jsonl"), "w") as f:
+    with open(os.path.join(ROOT, SFT_OUT), "w") as f:
         for r in kept:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
@@ -294,7 +302,7 @@ def main():
               "trajectories": count(kept), "retry_augmented": len(retry), "buried_augmented": len(buried),
               "nearmiss_augmented": len(nearmiss), "dropped_not_retrieved": dropped,
               "not_covered_share_train": round(count(kept)["not_covered"] / max(1, len(kept)), 3)}
-    with open(os.path.join(QA, "report.json"), "w") as f:
+    with open(os.path.join(QA, "report.json" if SFT_OUT == "data/sft/train.jsonl" else "report_v5.json"), "w") as f:
         json.dump(report, f, indent=2)
     print(json.dumps(report, indent=2))
 

@@ -30,12 +30,18 @@ def clean(a):
     return a
 
 
+RAG_FILE = os.environ.get("RAG_FILE", "results/distill_train_rag.jsonl")
+SFT_IN = os.environ.get("SFT_IN", "data/sft/train.jsonl")
+SFT_OUT = os.environ.get("SFT_OUT", "data/sft/train_v4.jsonl")
+MAX_WORDS = int(os.environ.get("MAX_WORDS", 120))
+
+
 def main():
     with open(os.path.join(ROOT, "data/qa/train.jsonl")) as f:
         items = {json.loads(l)["question"]: json.loads(l) for l in f}
-    with open(os.path.join(ROOT, "results/distill_train_rag.jsonl")) as f:
+    with open(os.path.join(ROOT, RAG_FILE)) as f:
         rag = {json.loads(l)["id"]: json.loads(l) for l in f}
-    with open(os.path.join(ROOT, "data/sft/train.jsonl")) as f:
+    with open(os.path.join(ROOT, SFT_IN)) as f:
         trajs = [json.loads(l) for l in f]
 
     stats = {"replaced": 0, "kept_teacher": 0, "skip_multi_search": 0, "skip_other_results": 0, "reject_quality": 0}
@@ -62,7 +68,7 @@ def main():
         ref = set(toks(it["answer"]))
         cited = {int(c) for c in CITE.findall(a)}
         ok = (not says_not_found(a) and ref and len(ref & set(toks(a))) / len(ref) >= 0.6
-              and any(fact_hit(f, a) for f in it["facts"]) and len(a.split()) <= 120
+              and any(fact_hit(f, a) for f in it["facts"]) and len(a.split()) <= MAX_WORDS
               and cited and cited <= shown
               and not (it["type"] == "superseded" and old_rule_used(it, a)))
         if not ok:
@@ -75,7 +81,7 @@ def main():
         stats["replaced"] += 1
     stats["kept_teacher"] = sum(1 for t in out if t.get("answer_source") != "self_distilled"
                                 and t["type"] != "not_covered")
-    with open(os.path.join(ROOT, "data/sft/train_v4.jsonl"), "w") as f:
+    with open(os.path.join(ROOT, SFT_OUT), "w") as f:
         for t in out:
             f.write(json.dumps(t, ensure_ascii=False) + "\n")
     print(json.dumps(stats, indent=2))
