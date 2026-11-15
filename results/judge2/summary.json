@@ -1,0 +1,56 @@
+[
+  {
+    "run": "base_naive_rag",
+    "n": 74,
+    "judge": "openai/gpt-oss-120b",
+    "correct": 0.432,
+    "correct_ci": [
+      0.324,
+      0.541
+    ],
+    "correct_or_partial": 0.514,
+    "wrong": 0.378,
+    "refused": 0.108,
+    "by_type": {
+      "multi_hop": 0.333,
+      "single_hop": 0.417,
+      "superseded": 0.625
+    }
+  },
+  {
+    "run": "base_agent",
+    "n": 74,
+    "judge": "openai/gpt-oss-120b",
+    "correct": 0.122,
+    "correct_ci": [
+      0.054,
+      0.203
+    ],
+    "correct_or_partial": 0.311,
+    "wrong": 0.554,
+    "refused": 0.135,
+    "by_type": {
+      "multi_hop": 0.333,
+      "single_hop": 0.117,
+      "superseded": 0.0
+    }
+  },
+  {
+    "run": "tuned_v4_agent",
+    "n": 74,
+    "judge": "openai/gpt-oss-120b",
+    "correct": 0.338,
+    "correct_ci": [
+      0.23,
+      0.446
+    ],
+    "correct_or_partial": 0.541,
+    "wrong": 0.432,
+    "refused": 0.027,
+    "by_type": {
+      "multi_hop": 0.0,
+      "single_hop": 0.367,
+      "superseded": 0.375
+    }
+  }
+]

@@ -50,6 +50,29 @@ What this shows, plainly:
 3. **The replaced-rule result is inconclusive.** With only 8 replaced-rule test questions from about 2 topics, every setup lands between 25% and 50% old-rule use, and we make no claim either way.
 4. **Absolute accuracy is low for every setup.** Search finds the source passage for 55 of 77 answerable questions (71%) at 4 results, and a 3B model reading dense regulatory text often drops a condition or a date.
 
+### Two follow-up checks
+
+**A second judge.** We re-graded the three main setups with `openai/gpt-oss-120b` ([judge_agreement.py](src/judge_agreement.py), `results/judge2/`).
+
+| Setup | Correct (qwen3.8-27b) | Correct (gpt-oss-120b) | Exact agreement | Cohen's κ |
+|---|---|---|---|---|
+| Untrained, agent loop | 4% | 12% | 84% | 0.73 |
+| PolicyGuard v4, agent loop | 26% | 34% | 80% | 0.69 |
+| Untrained, fixed pipeline | 32% | 43% | 76% | 0.65 |
+
+- Pooled over all 222 verdicts, the judges agree on 80%, with κ = 0.70.
+- The second judge is more lenient; most disagreements are "partial" upgraded to "correct".
+- It gives the same ranking, and the same conclusion: PolicyGuard is far above the untrained agent and below the fixed pipeline.
+
+**Six search results instead of four.** No retraining; the same models get the top 6 results (`TOPK=6`, [scripts/round5.sh](scripts/round5.sh)). The source passage is in the top 6 for 81% of answerable questions, against 71% in the top 4.
+
+| Setup | Correct (judge), k=4 → k=6 | Cites the right passage | Says "not found" wrongly |
+|---|---|---|---|
+| PolicyGuard v4, agent loop | 26% → **30%** (CI 20–41%) | 42% → 35% | 3% → 0% |
+| Untrained, fixed pipeline | 32% → **47%** (CI 35–58%) | 30% → 43% | 11% → 7% |
+
+More context helps the fixed pipeline far more than PolicyGuard. PolicyGuard was trained only on 4-result observations and doesn't use the extra results as well, so at k=6 the fixed pipeline is ahead on both accuracy and citation. **The best setup we measured is the untrained model with a fixed 6-result pipeline (47% correct)**, and that is the baseline a future PolicyGuard should be trained against. The headline tables above stay at k=4, the setting PolicyGuard was trained for.
+
 ### How we got here (four training rounds)
 
 | Version | Change | Correct (judge) | Says "not found" wrongly | "Not found" F1 |
@@ -181,7 +204,7 @@ results/              every run's answers + transcripts, summary.json, judge/
 
 - **Small test set.** 74 answerable and 21 unanswerable questions; differences of a few points are inside the confidence intervals. Only 8 replaced-rule questions, so the project's central safety question (does the model follow the newer rule?) is not answered by this evaluation.
 - **Synthetic questions.** Questions were written by LLMs from the passages, not by policyholders, and lean toward the wording of the circulars. "Not answered" questions were checked by retrieval plus an LLM, not by a human.
-- **Teacher and judge models.** Training answers come from gpt-oss (and, for 79 items, the untrained Tiny Aya); the judge is qwen3.8-27b. Judge verdicts were spot-checked by hand on a handful of items, not validated at scale.
+- **Teacher and judge models.** Training answers come from gpt-oss (and, for 79 items, the untrained Tiny Aya); the judge is qwen3.8-27b. A second judge (gpt-oss-120b) agrees on 80% of verdicts (κ = 0.70) and ranks the setups the same way, but no human labels were collected at scale.
 - **Near-miss "not found" examples** are built by removing passages that contain a key fact verbatim; a remaining passage could still state the answer in other words.
 - **Search is the ceiling.** The source passage is in the top 4 results for 71% of answerable questions (81% at top 6). 52 of 495 chunks exceed MiniLM's 256-token window.
 - **Not legal or financial advice.** Two IRDAI documents only; real policies and later circulars may differ.

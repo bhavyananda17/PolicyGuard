@@ -1,0 +1,74 @@
+{"id": "test-0000", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect sections and extra unrelated regulations"}
+{"id": "test-0001", "type": "single_hop", "verdict": "correct", "reason": "Matches rule exactly"}
+{"id": "test-0002", "type": "single_hop", "verdict": "correct", "reason": "Matches rule wording and condition"}
+{"id": "test-0003", "type": "single_hop", "verdict": "partial", "reason": "Misidentifies chapter as B instead of II"}
+{"id": "test-0004", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect date and condition"}
+{"id": "test-0005", "type": "single_hop", "verdict": "correct", "reason": "Matches reference and key facts precisely"}
+{"id": "test-0006", "type": "single_hop", "verdict": "correct", "reason": "Matches rule fully"}
+{"id": "test-0007", "type": "single_hop", "verdict": "correct", "reason": "Accurately restates required technology solutions"}
+{"id": "test-0008", "type": "single_hop", "verdict": "correct", "reason": "Accurately restates refund rule"}
+{"id": "test-0009", "type": "single_hop", "verdict": "wrong", "reason": "Irrelevant; describes cancellation, not premium withdrawal"}
+{"id": "test-0010", "type": "single_hop", "verdict": "correct", "reason": "Matches rule requiring explicit consent"}
+{"id": "test-0011", "type": "single_hop", "verdict": "correct", "reason": "Matches rule exactly"}
+{"id": "test-0012", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect subject; insurer, not policyholder, obtains consent"}
+{"id": "test-0013", "type": "single_hop", "verdict": "wrong", "reason": "Adds unsupported timing details"}
+{"id": "test-0014", "type": "single_hop", "verdict": "correct", "reason": "Accurately lists both sum insured types"}
+{"id": "test-0015", "type": "single_hop", "verdict": "wrong", "reason": "Lists three categories, not two"}
+{"id": "test-0016", "type": "single_hop", "verdict": "partial", "reason": "Days value may not match reference"}
+{"id": "test-0017", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect days and percentage values"}
+{"id": "test-0018", "type": "single_hop", "verdict": "wrong", "reason": "Incorrectly says applies to accident claims"}
+{"id": "test-0019", "type": "single_hop", "verdict": "correct", "reason": "Matches rule with correct month count"}
+{"id": "test-0020", "type": "single_hop", "verdict": "partial", "reason": "Mentions deductible but omits other limits"}
+{"id": "test-0021", "type": "single_hop", "verdict": "correct", "reason": "Matches rule exactly"}
+{"id": "test-0023", "type": "single_hop", "verdict": "wrong", "reason": "Irrelevant details, missing required expense info"}
+{"id": "test-0024", "type": "single_hop", "verdict": "wrong", "reason": "Provides different rule and timeframe"}
+{"id": "test-0025", "type": "single_hop", "verdict": "wrong", "reason": "Misstates condition; omits fraud, etc."}
+{"id": "test-0026", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect party required to confirm"}
+{"id": "test-0027", "type": "single_hop", "verdict": "correct", "reason": "Matches rule precisely"}
+{"id": "test-0028", "type": "single_hop", "verdict": "partial", "reason": "Omits complete application filing requirement"}
+{"id": "test-0029", "type": "single_hop", "verdict": "correct", "reason": "Matches rule exactly"}
+{"id": "test-0030", "type": "single_hop", "verdict": "correct", "reason": "Matches required separate application and projections"}
+{"id": "test-0031", "type": "single_hop", "verdict": "correct", "reason": "Matches rule precisely"}
+{"id": "test-0032", "type": "single_hop", "verdict": "wrong", "reason": "Contradicts reference; says No instead of Yes"}
+{"id": "test-0033", "type": "single_hop", "verdict": "correct", "reason": "Matches rule, confirms indemnity only"}
+{"id": "test-0034", "type": "single_hop", "verdict": "partial", "reason": "Adds irrelevant 4.3, lacks actual class details"}
+{"id": "test-0035", "type": "single_hop", "verdict": "partial", "reason": "Omits occupation and conditional nature"}
+{"id": "test-0036", "type": "single_hop", "verdict": "correct", "reason": "Matches reference stating insurer does not cover full cost"}
+{"id": "test-0037", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
+{"id": "test-0038", "type": "single_hop", "verdict": "wrong", "reason": "Adds incorrect extra requirements"}
+{"id": "test-0039", "type": "single_hop", "verdict": "wrong", "reason": "Adds unrelated requirements not in reference"}
+{"id": "test-0040", "type": "single_hop", "verdict": "correct", "reason": "Includes all required elements, no contradictions"}
+{"id": "test-0041", "type": "single_hop", "verdict": "correct", "reason": "Matches required data sources"}
+{"id": "test-0042", "type": "single_hop", "verdict": "wrong", "reason": "Adds unsupported financial projection requirement"}
+{"id": "test-0043", "type": "single_hop", "verdict": "correct", "reason": "Matches rule precisely"}
+{"id": "test-0044", "type": "single_hop", "verdict": "correct", "reason": "Matches rule, adds acceptable detail"}
+{"id": "test-0045", "type": "single_hop", "verdict": "partial", "reason": "Misses gross premium table; adds unrelated details"}
+{"id": "test-0046", "type": "single_hop", "verdict": "correct", "reason": "Accurately states where the date is recorded"}
+{"id": "test-0047", "type": "single_hop", "verdict": "wrong", "reason": "Does not provide the withdrawal date"}
+{"id": "test-0048", "type": "single_hop", "verdict": "partial", "reason": "Missing 90‑day specific notice period"}
+{"id": "test-0049", "type": "single_hop", "verdict": "wrong", "reason": "Contradicts reference; says it applies"}
+{"id": "test-0050", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect notice period; should be 90 days"}
+{"id": "test-0051", "type": "single_hop", "verdict": "partial", "reason": "Missing effective date of circular"}
+{"id": "test-0052", "type": "single_hop", "verdict": "wrong", "reason": "Cites incorrect circular and date"}
+{"id": "test-0053", "type": "single_hop", "verdict": "partial", "reason": "Missing circular number"}
+{"id": "test-0054", "type": "single_hop", "verdict": "partial", "reason": "Missing circular code, only date given"}
+{"id": "test-0055", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect circular and date"}
+{"id": "test-0056", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect circular and date"}
+{"id": "test-0057", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect rule and date"}
+{"id": "test-0058", "type": "single_hop", "verdict": "wrong", "reason": "Incorrect circular, date and reference"}
+{"id": "test-0059", "type": "single_hop", "verdict": "refused", "reason": "said it could not find the answer"}
+{"id": "test-0060", "type": "single_hop", "verdict": "wrong", "reason": "Cites different circular and date"}
+{"id": "test-0061", "type": "multi_hop", "verdict": "wrong", "reason": "Incorrect notice period; should be 90 days"}
+{"id": "test-0063", "type": "multi_hop", "verdict": "partial", "reason": "Omits product modification deadline"}
+{"id": "test-0064", "type": "multi_hop", "verdict": "partial", "reason": "Adds unsupported categories beyond reference"}
+{"id": "test-0066", "type": "multi_hop", "verdict": "wrong", "reason": "Contradicts rule; benefit structure can change on modification"}
+{"id": "test-0067", "type": "multi_hop", "verdict": "partial", "reason": "Omits condition of classification and recommendation"}
+{"id": "test-0068", "type": "multi_hop", "verdict": "wrong", "reason": "Provides specific year not in rule"}
+{"id": "test-0069", "type": "superseded", "verdict": "wrong", "reason": "Provides unrelated percentage and cap, not sub‑limit"}
+{"id": "test-0070", "type": "superseded", "verdict": "wrong", "reason": "Provides unrelated percentages and caps"}
+{"id": "test-0071", "type": "superseded", "verdict": "correct", "reason": "Matches sub‑limit of INR 5,000 per day"}
+{"id": "test-0072", "type": "superseded", "verdict": "wrong", "reason": "Incorrect sub‑limit and percentage"}
+{"id": "test-0073", "type": "superseded", "verdict": "partial", "reason": "Omits separate info/form requirement"}
+{"id": "test-0074", "type": "superseded", "verdict": "wrong", "reason": "Omits required sensitivity analysis"}
+{"id": "test-0075", "type": "superseded", "verdict": "correct", "reason": "Matches rule on separate info for add‑ons"}
+{"id": "test-0076", "type": "superseded", "verdict": "correct", "reason": "Accurately states separate analysis required"}

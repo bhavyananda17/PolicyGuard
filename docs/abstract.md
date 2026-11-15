@@ -2,7 +2,7 @@
 
 **Track 3, problem statement 4 (fine-tuning for RAG); also touches 5 (synthetic data) and 3 (distillation).**
 
-Indian health-insurance rules come from IRDAI circulars, and newer circulars replace older ones. The 2024 Master Circular, for example, cut the moratorium period from 8 years to 60 months. Small, cheap language models fail here in two ways: they answer from memory with invented rules and citations, or they retrieve the outdated rule and state it confidently. PolicyGuard asks whether a zero-cost LoRA fine-tune can make Tiny Aya Global (3.35B) a careful search agent: one that searches first, cites its passage and says "not found" instead of guessing.
+Indian health-insurance rules come from IRDAI circulars, and newer circulars replace older ones. The 2024 Master Circular, for example, cut the moratorium period from 8 years to 60 months. Small, cheap models fail here in two ways: they invent rules and citations, or confidently state the outdated rule. PolicyGuard asks whether a zero-cost LoRA fine-tune can make Tiny Aya Global (3.35B) a careful search agent: one that searches first, cites its passage and says "not found" instead of guessing.
 
 **Method.**
 - **Search index:** 495 chunks of three public IRDAI circulars (2024 current, 2020 replaced) with hybrid MiniLM and TF-IDF retrieval. Each result shows its date but not whether it is current.
@@ -17,12 +17,12 @@ Indian health-insurance rules come from IRDAI circulars, and newer circulars rep
 
 **Results.**
 - **Fine-tuning produces a working agent.** In the same agent loop, judged-correct answers rise from 4% to 26% and right-passage citations from 3% to 42%. Wrong refusals fall from 14% to 3%, and "not found" precision is 0.78.
-- **It does not beat a fixed always-search-once pipeline on the untrained model.** That pipeline scores 32% correct; the 95% intervals overlap (23–43% vs 16–35%). It cites the right passage less often (30%) and refuses answerable questions more (11%).
+- **It does not beat a fixed always-search-once pipeline on the untrained model.** That pipeline scores 32% correct (intervals overlap). With 6 results instead of 4 it reaches 47%, while PolicyGuard, trained on 4, reaches only 30%.
 - **The training mix sets the answer/refuse balance.** One repeated refusal phrase taught the model to refuse 26% of answerable questions. Varied wording and near-miss examples reduced this to 0–3%, at the cost of catching fewer unanswerable questions.
 
 **Limitations.**
 - The test set is small. With 8 replaced-rule items, current-rule preference is not established.
-- Questions are synthetic, and the judge was not validated at scale.
+- Questions are synthetic. A second judge (gpt-oss-120b) agrees on 80% of verdicts (κ = 0.70), but there are no human labels.
 - Search finds the source passage for only 71% of questions, which caps every setup.
 - I found and fixed two of my own measurement errors (a length-biased overlap metric and a narrow refusal detector). Fixing the detector removed an apparent PolicyGuard advantage.
 

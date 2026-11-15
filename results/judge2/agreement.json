@@ -1,0 +1,47 @@
+[
+  {
+    "run": "base_naive_rag",
+    "n": 74,
+    "correct_judge1": 0.324,
+    "correct_judge2": 0.432,
+    "exact_agreement": 0.757,
+    "kappa": 0.651,
+    "binary_agreement": 0.865
+  },
+  {
+    "run": "base_agent",
+    "n": 74,
+    "correct_judge1": 0.041,
+    "correct_judge2": 0.122,
+    "exact_agreement": 0.838,
+    "kappa": 0.727,
+    "binary_agreement": 0.919
+  },
+  {
+    "run": "tuned_v4_agent",
+    "n": 74,
+    "correct_judge1": 0.257,
+    "correct_judge2": 0.338,
+    "exact_agreement": 0.797,
+    "kappa": 0.691,
+    "binary_agreement": 0.892
+  },
+  {
+    "run": "pooled",
+    "n": 222,
+    "exact_agreement": 0.797,
+    "kappa": 0.7,
+    "confusion": {
+      "correct->correct": 44,
+      "correct->partial": 1,
+      "correct->wrong": 1,
+      "partial->correct": 17,
+      "partial->partial": 22,
+      "partial->wrong": 9,
+      "refused->refused": 20,
+      "wrong->correct": 5,
+      "wrong->partial": 12,
+      "wrong->wrong": 91
+    }
+  }
+]

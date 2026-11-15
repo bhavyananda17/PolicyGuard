@@ -21,7 +21,7 @@ from search import Searcher
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL = "CohereLabs/tiny-aya-global"
-K = 4
+K = int(os.environ.get("TOPK", 4))         # search results per call (TOPK=6 for the k=6 run)
 MAX_SEARCHES = 3
 
 PLAIN_SYSTEM = ("You answer questions about Indian health-insurance rules issued by IRDAI. "

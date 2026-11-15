@@ -88,5 +88,41 @@
       "single_hop": 0.267,
       "superseded": 0.25
     }
+  },
+  {
+    "run": "tuned_v4_agent_k6",
+    "n": 74,
+    "judge": "qwen/qwen3.8-27b",
+    "correct": 0.297,
+    "correct_ci": [
+      0.203,
+      0.405
+    ],
+    "correct_or_partial": 0.459,
+    "wrong": 0.541,
+    "refused": 0.0,
+    "by_type": {
+      "multi_hop": 0.0,
+      "single_hop": 0.367,
+      "superseded": 0.0
+    }
+  },
+  {
+    "run": "base_naive_rag_k6",
+    "n": 74,
+    "judge": "qwen/qwen3.8-27b",
+    "correct": 0.473,
+    "correct_ci": [
+      0.351,
+      0.581
+    ],
+    "correct_or_partial": 0.581,
+    "wrong": 0.351,
+    "refused": 0.068,
+    "by_type": {
+      "multi_hop": 0.167,
+      "single_hop": 0.533,
+      "superseded": 0.25
+    }
   }
 ]

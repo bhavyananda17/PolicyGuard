@@ -21,7 +21,8 @@ tags:
 
 - I fine-tuned [Tiny Aya Global](https://huggingface.co/CohereLabs/tiny-aya-global) (3.35B) with LoRA to act as a search agent over Indian health-insurance circulars. It searches, cites passages as `[chunk N]`, and says "not found" instead of guessing.
 - **What fine-tuning bought.** In the same agent loop, judged-correct answers go from **4% to 26%**, and citing the right passage goes from **3% to 42%**. Wrongly refusing an answerable question drops from 14% to 3%.
-- **What it didn't buy.** It does **not** beat a fixed "always search once, then answer" pipeline built on the same untrained model (32% correct). The confidence intervals overlap, so on this test set the two can't be separated.
+- **What it didn't buy.** It does **not** beat a fixed "always search once, then answer" pipeline built on the same untrained model (32% correct). With 4 results the confidence intervals overlap. With 6 results the fixed pipeline pulls clearly ahead (47% vs 30%).
+- **The grading holds up.** A second judge model agrees on 80% of verdicts (κ = 0.70) and ranks the setups the same way.
 - **Cost.** Everything ran on one laptop (MacBook Pro M5 Pro, 24 GB) and the free Groq tier, at zero cost. Training took about 50 minutes with MLX and touched 0.10% of the parameters.
 
 ![Correct answers with 95% confidence intervals for each setup](https://raw.githubusercontent.com/bhavyananda17/lexsi_labs_project/main/docs/figures/correct_ci.png)
@@ -180,7 +181,21 @@ All setups use the same base model, the same search index and greedy decoding:
 
 I think this is the honest headline. On a corpus this small, with a search that finds the source passage 71% of the time at top 4, "always search" is a strong baseline. An agent loop has to *earn* its extra flexibility. A 3B model given 339 trajectories gets close to that baseline but doesn't pass it.
 
-**3. The replaced-rule question is not answered.** With 8 replaced-rule test items from about 2 topics, every setup used the old rule on 25–50% of them. I make no claim either way.
+**3. Giving every setup more search results widens the gap.** I re-ran both setups with the top 6 results instead of 4, without retraining. The source passage is then in the results 81% of the time instead of 71%.
+
+| Setup | Correct, 4 results → 6 results | Cites the right passage |
+|---|---|---|
+| PolicyGuard v4 | 26% → 30% (CI 20–41%) | 42% → 35% |
+| Untrained, fixed pipeline | 32% → **47%** (CI 35–58%) | 30% → 43% |
+
+The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely. PolicyGuard only ever saw 4-result observations in training, and it doesn't use the extra context well. So the best setup I measured is the *untrained* model in a fixed 6-result pipeline. That's the bar a future version has to clear, and it suggests training with 6-result observations.
+
+**4. A second judge agrees.** I re-graded the three main setups with gpt-oss-120b.
+- The two judges agree on 80% of 222 verdicts, with Cohen's κ = 0.70.
+- gpt-oss-120b is more lenient: it scores 34% correct for PolicyGuard, 43% for the fixed pipeline and 12% for the untrained agent. Most disagreements are "partial" upgraded to "correct".
+- It ranks the setups the same way, so the conclusions above don't depend on the choice of judge.
+
+**5. The replaced-rule question is not answered.** With 8 replaced-rule test items from about 2 topics, every setup used the old rule on 25–50% of them. I make no claim either way.
 
 ## What changed across four training rounds
 
@@ -216,13 +231,13 @@ I'm including these because they changed the conclusion.
 - **Small test set.** 74 answerable and 21 unanswerable questions. Differences of a few points are noise.
 - **Few replaced-rule items.** Only 8, so the project's central safety question isn't settled: does the model prefer the current rule?
 - **Synthetic questions.** LLMs wrote them from the passages, so they lean on the circulars' own wording. "Not answered" items were checked automatically, not by a person.
-- **One judge model.** I spot-checked a handful of verdicts by hand but didn't validate the judge at scale.
+- **LLM judges only.** Two judge models agree well (κ = 0.70), but no human labels were collected at scale.
 - **Search is the ceiling.** The source passage is in the top 4 results for 71% of answerable questions, and 52 of the 495 chunks are longer than MiniLM's 256-token window.
 - **Not legal or financial advice.** Only two IRDAI documents are covered.
 
 ## What I'd try next
 
-- **Better search.** A reranker, or top 6 results (81% source recall), probably helps every setup more than more fine-tuning does.
+- **Train with the context it will get.** Re-train on 6-result observations, since the untrained fixed pipeline jumps to 47% with 6 results and PolicyGuard doesn't keep up. A reranker would help every setup.
 - **More replaced-rule items.** Hand-checked questions across more topics, so the current-versus-old-rule question can actually be measured.
 - **Training on the agent's own trajectories.** For example, rejection sampling over the agent's own runs, rather than only teacher-shaped ones.
 - **A real comparison against the always-search pipeline.** It should be the baseline to beat, not the untrained agent.
