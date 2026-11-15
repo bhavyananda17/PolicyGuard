@@ -8,6 +8,7 @@ PolicyGuard answers questions about IRDAI health-insurance rules by searching th
 - **Demo:** [huggingface.co/spaces/bhavyananda17/policyguard-demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo): side-by-side answers on all 95 test questions, with grades and every search step
 - Adapter: [`bhavyananda17/policyguard-tiny-aya-global-lora`](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX formats)
 - Dataset: [`bhavyananda17/policyguard-irdai-qa`](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) (questions, trajectories, corpus)
+- Write-up: [docs/hf_article.md](docs/hf_article.md) · Abstract: [docs/abstract.md](docs/abstract.md)
 - Collection: [PolicyGuard (Lexsi hackathon)](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
 - Hardware: one MacBook Pro (M5 Pro, 24 GB). Training: about 50 minutes with MLX. Cost: zero (free Groq tier for data generation).
 
