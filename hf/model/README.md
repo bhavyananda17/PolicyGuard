@@ -37,7 +37,20 @@ Built for the Lexsi AI Safety & Alignment Hackathon, Track 3 (Agentic Fine-tunin
 | **Tiny Aya + this adapter, agent loop** | **26%** | **49%** | **3%** | **42%** | 0.47 |
 | Tiny Aya, fixed pipeline (always search once), untrained | 32% | 54% | 11% | 30% | 0.51 |
 
-In the same agent loop, the adapter takes correct answers from 4% to 26% and right-passage citations from 3% to 42%. It does not beat a fixed always-search pipeline on accuracy (the confidence intervals overlap: 16–35% vs 23–43%), but it cites better and rarely refuses an answerable question. Full tables, confidence intervals and training history are in the GitHub README.
+In the same agent loop, the adapter takes correct answers from 4% to 26% and right-passage citations from 3% to 42%. It does not beat a fixed always-search pipeline on accuracy (the confidence intervals overlap: 16–35% vs 23–43%), but at 4 results it cites better and rarely refuses an answerable question. Full tables, confidence intervals and training history are in the GitHub README.
+
+### Follow-up checks
+
+**Second judge.** gpt-oss-120b re-graded the three setups above. It agrees with qwen3.8-27b on 80% of 222 verdicts (Cohen's κ = 0.70). It is more lenient, giving 12% / 34% / 43% correct for the three setups, but ranks them the same way.
+
+**Six search results instead of four.** No retraining.
+
+| Setup | Correct, 4 → 6 results | Cites the right passage, 4 → 6 results |
+|---|---|---|
+| Tiny Aya + this adapter, agent loop | 26% → 30% | 42% → 35% |
+| Tiny Aya, fixed pipeline, untrained | 32% → **47%** | 30% → 43% |
+
+The adapter was trained only on 4-result observations and does not use extra context well. With 6 results, the untrained fixed pipeline is ahead on both accuracy and citation, and it is the best setup measured. A next version should be trained on 6-result observations.
 
 ## Files
 
@@ -86,7 +99,8 @@ The adapter expects the PolicyGuard agent format: the system prompt from `src/ag
 - **Small test set:** 74 answerable questions, so differences of a few points sit inside the confidence intervals.
 - **Replaced rules:** only 8 test questions are about rules that were replaced, so whether the model follows the newer rule is not established.
 - **Synthetic questions:** they were written by LLMs from the passages, not by policyholders.
-- **Search is a ceiling:** the source passage is in the top 4 results for 71% of answerable questions.
+- **Search is a ceiling:** the source passage is in the top 4 results for 71% of answerable questions (81% in the top 6).
+- **LLM judges only:** two judge models agree well (κ = 0.70), but there are no human labels at scale.
 - **Missed details:** a 3B model reading dense regulatory text often drops a condition or a date.
 
 ## License
