@@ -15,7 +15,7 @@ tags:
 
 *Lexsi AI Safety & Alignment Hackathon, Track 3 (Agentic Fine-tuning), problem statement 4: fine-tuning for retrieval-augmented generation. It also touches problem statements 5 (synthetic data) and 3 (distillation).*
 
-**Links:** [demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo) · [adapter](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) · [dataset](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) · [code](https://github.com/bhavyananda17/lexsi_labs_project) · [collection](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
+**Links:** [demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo) · [adapter](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) · [dataset](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) · [code](https://github.com/bhavyananda17/lexsi_labs_project) · [model collection](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4) · [datasets and traces](https://huggingface.co/collections/bhavyananda17/policyguard-datasets-and-traces-6afadc16b254dced2f3f33a9)
 
 ## TL;DR
 
@@ -133,8 +133,8 @@ For people without a Mac, the adapter is also published in PEFT format. The conv
 
 | Kind | Questions |
 |---|---|
-| Single-rule | 61 |
-| Two-rule | 8 |
+| Single-rule | 60 |
+| Two-rule | 6 |
 | Replaced-rule | 8 |
 | Not answered by the documents | 21 |
 
@@ -198,6 +198,26 @@ The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely
 - It ranks the setups the same way, so the conclusions above don't depend on the choice of judge.
 
 **5. The replaced-rule question is not answered.** With 8 replaced-rule test items from about 2 topics, every setup used the old rule on 25–50% of them. I make no claim either way.
+
+**6. Agent metrics by question type.** Task success counts an answerable question as solved when the judge grades it correct, and an unanswerable one when the model says "not found". "Search found the answer" means at least one search returned a passage containing the answer. Latency is wall-clock time with MLX on an M5 Pro. No run produced a malformed tool call.
+
+| Task success | Single-rule (60) | Two-rule (6) | Replaced rule (8) | Not answered (21) | All (95) |
+|---|---|---|---|---|---|
+| Untrained, agent loop | 5% | 0% | 0% | 19% | 7% |
+| Untrained, always search once | 33% | 0% | 50% | 48% | 36% |
+| Untrained, always search once, 6 results | 53% | 17% | 25% | 38% | 45% |
+| PolicyGuard v4 | 27% | 17% | 25% | 33% | 27% |
+| PolicyGuard v5 | 45% | 0% | 13% | 19% | 34% |
+
+| Tool use and latency (all 95) | Searches per question | Search found the answer | Seconds per question |
+|---|---|---|---|
+| Untrained, agent loop | 0.11 | 5% | 3.8 |
+| Untrained, always search once | 1.00 | 80% | 3.3 |
+| Untrained, always search once, 6 results | 1.00 | 84% | 3.5 |
+| PolicyGuard v4 | 1.07 | 81% | 3.3 |
+| PolicyGuard v5 | 1.21 | 77% | 3.6 |
+
+v5's gains are almost all on single-rule questions; the two-rule and replaced-rule groups are too small to say much. Its searches find the answer a little less often than v4's, probably because of the keyword queries. A second search costs about a second, so the agent is barely slower than the fixed pipeline.
 
 ## What changed across five training rounds
 

@@ -8,7 +8,7 @@ Links:
 - Demo: [huggingface.co/spaces/bhavyananda17/policyguard-demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo) (all 95 test questions side by side, with grades and search steps)
 - Adapter: [bhavyananda17/policyguard-tiny-aya-global-lora](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX)
 - Dataset: [bhavyananda17/policyguard-irdai-qa](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa)
-- Collection: [PolicyGuard (Lexsi hackathon)](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
+- Collections: [models](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4), [datasets and traces](https://huggingface.co/collections/bhavyananda17/policyguard-datasets-and-traces-6afadc16b254dced2f3f33a9) (evaluation transcripts, judge verdicts and logs are in the dataset repo under `eval/` and `logs/`)
 - Write-up: [docs/hf_article.md](docs/hf_article.md), abstract: [docs/abstract.md](docs/abstract.md)
 
 ## Why this problem
@@ -23,7 +23,7 @@ The untrained Tiny Aya does the second. Asked how often the Master Circular is r
 
 ## Results
 
-The test set has 95 questions that share no source passage with the training data: 61 single-rule, 8 two-rule, 8 about a replaced rule, and 21 that the documents don't answer. Three broken items are excluded (see [Evaluation](#evaluation)). Every setup uses the same base model, search index and greedy decoding. Correctness is graded by an LLM judge (qwen3.8-27b) on the 74 answerable questions.
+The test set has 95 scored questions that share no source passage with the training data: 60 single-rule, 6 two-rule, 8 about a replaced rule, and 21 that the documents don't answer. Three broken items are excluded (see [Evaluation](#evaluation)). Every setup uses the same base model, search index and greedy decoding. Correctness is graded by an LLM judge (qwen3.8-27b) on the 74 answerable questions.
 
 | Setup | Correct (95% CI) | Correct or partly | Wrongly says "not found" | Cites the right passage | "Not found" P / R / F1 |
 |---|---|---|---|---|---|
@@ -55,6 +55,28 @@ To check that the results aren't an artifact of one judge, I re-graded three set
 | Untrained, always search once | 32% | 43% | 76% | 0.65 |
 
 Across all 222 verdicts they agree 80% of the time (κ = 0.70). gpt-oss-120b is more lenient, mostly by upgrading "partial" to "correct", but it ranks the setups the same way. v5 was only graded by qwen3.8-27b.
+
+### Agent metrics by question type
+
+Task success counts an answerable question as solved when the judge grades it correct, and an unanswerable one when the model says "not found". "Search found the answer" is the share of answerable questions where at least one search returned a passage containing the answer. Latency is wall-clock time per question with MLX on an M5 Pro. Every transcript parsed cleanly: there were no malformed tool calls in any run. Computed by [src/agent_metrics.py](src/agent_metrics.py); the numbers are in `results/agent_metrics.json`.
+
+| Task success | Single-rule (60) | Two-rule (6) | Replaced rule (8) | Not answered (21) | All (95) |
+|---|---|---|---|---|---|
+| Untrained, agent loop | 5% | 0% | 0% | 19% | 7% |
+| Untrained, always search once | 33% | 0% | 50% | 48% | 36% |
+| Untrained, always search once, 6 results | 53% | 17% | 25% | 38% | 45% |
+| PolicyGuard v4 | 27% | 17% | 25% | 33% | 27% |
+| PolicyGuard v5 | 45% | 0% | 13% | 19% | 34% |
+
+| Tool use and latency (all 95) | Searches per question | Search found the answer | Seconds per question |
+|---|---|---|---|
+| Untrained, agent loop | 0.11 | 5% | 3.8 |
+| Untrained, always search once | 1.00 | 80% | 3.3 |
+| Untrained, always search once, 6 results | 1.00 | 84% | 3.5 |
+| PolicyGuard v4 | 1.07 | 81% | 3.3 |
+| PolicyGuard v5 | 1.21 | 77% | 3.6 |
+
+The gains from v5 are almost all on single-rule questions. The two-rule and replaced-rule groups are too small to read much into. v5's searches find the answer slightly less often than v4's, probably because of the keyword queries. Extra searches cost about a second each, so the agent is only marginally slower than the fixed pipeline.
 
 ### Training rounds
 
@@ -102,10 +124,10 @@ Tiny Aya's chat template has no tool role, so the agent uses a plain-text ReAct 
 
 In the training data, the search steps are real calls to the index, built by code. The final answers come from teacher models (gpt-oss on Groq), or, from v4 on, partly from the untrained Tiny Aya's own answers to the same search results. Loss is on assistant turns only (search decisions, queries and answers), never on the question or the retrieved text.
 
-| | Train | Test |
+| | Train | Test (scored) |
 |---|---|---|
-| Single-rule | 132 | 61 |
-| Two-rule | 19 | 8 |
+| Single-rule | 132 | 60 |
+| Two-rule | 19 | 6 |
 | Replaced-rule | 23 | 8 |
 | Not answered by the documents | 63 | 21 |
 

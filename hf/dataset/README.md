@@ -101,6 +101,20 @@ About 140-word chunks of the three circulars, with `chunk_id`, `doc`, `page`, `s
 
 - `metrics_summary.json`: deterministic metrics for every evaluated setup.
 - `judge_summary.json`: LLM-judge correctness for every evaluated setup.
+- `agent_metrics.json`: task success, tool-call validity, search hit rate, searches and seconds per question, by question type.
+
+### Evaluation traces and logs
+
+These are not loaded by the dataset viewer; download them directly.
+
+- `eval/runs/<run>.jsonl`: one line per test question with the final answer, every search call (query and returned chunk ids), the full ReAct transcript, wall-clock seconds and a format-error flag. The runs are:
+  - `base_*`: the untrained model;
+  - `tuned_v*`: PolicyGuard rounds;
+  - `*_k6`: 6 search results instead of 4;
+  - `distill_train_rag*`: the untrained model's answers on training questions, used for self-distillation.
+- `eval/judge/<run>.jsonl`: verdicts (correct / partial / wrong) and short reasons from qwen3.8-27b.
+- `eval/judge2/<run>.jsonl`: the same from gpt-oss-120b, with `agreement.json` (Cohen's κ = 0.70).
+- `logs/`: console logs of each data-generation, training and evaluation round.
 
 ## Limitations
 
