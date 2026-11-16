@@ -9,7 +9,7 @@ Links:
 - Adapter: [bhavyananda17/policyguard-tiny-aya-global-lora](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX)
 - Dataset: [bhavyananda17/policyguard-irdai-qa](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa)
 - Collections: [models](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4), [datasets and traces](https://huggingface.co/collections/bhavyananda17/policyguard-datasets-and-traces-6afadc16b254dced2f3f33a9) (evaluation transcripts, judge verdicts and logs are in the dataset repo under `eval/` and `logs/`)
-- Write-up: [docs/hf_article.md](docs/hf_article.md), abstract: [docs/abstract.md](docs/abstract.md)
+- Write-up: [docs/hf_article.md](docs/hf_article.md)
 
 ## Why this problem
 
