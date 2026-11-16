@@ -23,7 +23,7 @@ def main():
     api = HfApi(token=t)
     api.create_repo(MODEL, repo_type="model", private=False, exist_ok=True)
     api.upload_folder(repo_id=MODEL, repo_type="model", folder_path=os.path.join(ROOT, "hf/model"),
-                      commit_message="PolicyGuard v4 LoRA adapter (PEFT + MLX)")
+                      commit_message="PolicyGuard LoRA adapter (PEFT + MLX)")
     api.create_repo(DATA, repo_type="dataset", private=False, exist_ok=True)
     api.upload_folder(repo_id=DATA, repo_type="dataset", folder_path=os.path.join(ROOT, "hf/dataset"),
                       commit_message="PolicyGuard IRDAI QA: questions, trajectories, corpus, metrics")

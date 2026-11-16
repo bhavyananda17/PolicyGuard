@@ -86,11 +86,11 @@ ReAct conversations used for supervised fine-tuning. `train` built the v4 adapte
 
 ### `corpus` (495 passages)
 
-About 140-word chunks of the three circulars, with `chunk_id`, `doc`, `page`, `status` (current / superseded), `ref`, `date` and `text`. The agent sees the title, date and page in each result, but not `status`.
+About 140-word chunks of the two circulars and the 2024 annexure, with `chunk_id`, `doc`, `page`, `status` (current / superseded), `ref`, `date` and `text`. The agent sees the title, date and page in each result, but not `status`.
 
 ## How it was made
 
-1. **Questions:** generated from the passages on Groq's free tier.
+1. **Questions:** generated from the passages with open models on Groq.
    - `single_hop` and `multi_hop`: openai/gpt-oss-20b.
    - `superseded`: openai/gpt-oss-120b.
    - `not_covered`: qwen/qwen3.8-27b, then checked by retrieval plus an LLM that the documents do not answer it.
