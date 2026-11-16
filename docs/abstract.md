@@ -1,29 +1,15 @@
-# PolicyGuard: fine-tuning a 3B model into a citing, refusing search agent for insurance regulation
+# PolicyGuard: fine-tuning a small model to search insurance rules and cite them
 
-**Track 3, problem statement 4 (fine-tuning for RAG); also touches 5 (synthetic data) and 3 (distillation).**
+Track 3, problem statement 4 (fine-tuning for RAG), with some overlap with 5 (synthetic data) and 3 (distillation).
 
-Indian health-insurance rules come from IRDAI circulars, and newer circulars replace older ones. The 2024 Master Circular, for example, cut the moratorium period from 8 years to 60 months. Small, cheap models fail here in two ways: they invent rules and citations, or confidently state the outdated rule. PolicyGuard asks whether a zero-cost LoRA fine-tune can make Tiny Aya Global (3.35B) a careful search agent: one that searches first, cites its passage and says "not found" instead of guessing.
+Indian health-insurance rules are set by IRDAI circulars, and newer circulars replace older ones. The 2024 Master Circular, for example, cut the moratorium period from 8 years to 60 months. Small models asked about these rules either invent an answer and a citation, or state the outdated rule. I wanted to see whether a LoRA fine-tune could turn Tiny Aya Global (3.35B) into an agent that searches first, cites the passage it used, and says "not found" when the documents don't cover the question.
 
-**Method.**
-- **Search index:** 495 chunks of three public IRDAI circulars (2024 current, 2020 replaced) with hybrid MiniLM and TF-IDF retrieval. Each result shows its date but not whether it is current.
-- **Questions:** Groq's free tier generated single-rule, two-rule, replaced-rule and unanswerable questions. Key facts had to appear verbatim in the source; 335 were kept, split so train and test share no source passage.
-- **Trajectories:** plain-text ReAct (`Thought` / `Action: search_docs` / `Observation` / `Final Answer [chunk N]`). Search steps are real calls to the index, with variants for searching again, answers in the last result and near-miss refusals. 79 answers were self-distilled from the untrained model's filtered outputs.
-- **Training:** MLX LoRA at rank 16 on 0.10% of the parameters, about an hour on a laptop.
+The search index has 495 chunks from the 2024 Master Circular, its annexure, and the 2020 circular it replaced, with hybrid MiniLM and TF-IDF retrieval. Each result shows its document date but not whether that document is still in force. I generated single-rule, two-rule, replaced-rule and unanswerable questions with open models on Groq. A question was kept only if its key facts appear verbatim in the source; 335 survived. Train and test share no source passage. The training trajectories use a plain-text ReAct format, and every search step in them is a real call to the index. Some add a second search, bury the answer in the last result, or show on-topic results that lack the answer. Some final answers are self-distilled from the untrained model's filtered outputs. Training is MLX LoRA, rank 16, on 0.10% of the parameters.
 
-**Evaluation.** 95 held-out questions, with the same model, index and greedy decoding for every setup:
-- an LLM judge (qwen3.8-27b) on the 74 answerable questions;
-- deterministic citation, refusal and old-rule metrics;
-- bootstrap confidence intervals.
+All setups use the same 95 held-out questions, index and greedy decoding. An LLM judge (qwen3.8-27b) grades the 74 answerable ones; citation and refusal metrics are deterministic, with bootstrap confidence intervals.
 
-**Results.**
-- **Fine-tuning produces a working agent.** In the same agent loop, judged-correct answers rise from 4% to 38% (released v5) and right-passage citations from 3% to 45%. Wrong refusals fall from 14% to 1%, and "not found" precision is 0.80.
-- **It does not clearly beat a fixed always-search-once pipeline on the untrained model.** That pipeline scores 32% (intervals overlap), and 47% with 6 results instead of 4. v5, retrained on 6-result observations, gains 12 points over v4 (paired CI +3 to +23) but catches fewer unanswerable questions.
-- **The training mix sets the answer/refuse balance.** One repeated refusal phrase taught the model to refuse 26% of answerable questions. Varied wording and near-miss examples reduced this to 0–3%, at the cost of catching fewer unanswerable questions.
+In the same agent loop, fine-tuning raises correct answers from 4% to 38% and right-passage citations from 3% to 45%. Wrongly refusing an answerable question drops from 14% to 1%. It does not clearly beat the simplest alternative, though: always search once and let the untrained model answer. That scores 32% with 4 results (the intervals overlap) and 47% with 6. The released version (v5) was retrained on 6-result observations after I saw that gap. It gained 12 points over the previous round (paired CI +3 to +23) but catches fewer unanswerable questions. Across rounds, the "not found" examples set the balance between answering and refusing. One repeated refusal sentence taught an early version to refuse 26% of answerable questions, and varied wording with near-miss examples brought that to 0–3%.
 
-**Limitations.**
-- The test set is small. With 8 replaced-rule items, current-rule preference is not established.
-- Questions are synthetic. A second judge (gpt-oss-120b) agrees on 80% of verdicts (κ = 0.70), but there are no human labels.
-- Search finds the source passage for only 71% of questions, which caps every setup.
-- I fixed two of my own measurement errors (a length-biased overlap metric and a narrow refusal detector). Fixing the detector removed an apparent PolicyGuard advantage.
+The test set is small, and with only 8 replaced-rule questions I can't say whether the model prefers the current rule. The questions are synthetic. A second judge (gpt-oss-120b) agrees on 80% of verdicts (κ = 0.70), but there are no human labels. Search finds the source passage for only 71% of questions, which limits every setup. Fixing a mistake in my own refusal detector removed what had looked like a PolicyGuard advantage.
 
-**Artifacts.** [Adapter](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora) (PEFT and MLX), [dataset](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa), [demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo) with all 95 test transcripts, and [code](https://github.com/bhavyananda17/lexsi_labs_project) with cached LLM calls.
+Adapter: [huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora](https://huggingface.co/bhavyananda17/policyguard-tiny-aya-global-lora). Dataset and traces: [huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa). Demo: [huggingface.co/spaces/bhavyananda17/policyguard-demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo). Code: [github.com/bhavyananda17/lexsi_labs_project](https://github.com/bhavyananda17/lexsi_labs_project).
