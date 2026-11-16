@@ -10,7 +10,7 @@ PolicyGuard answers questions about IRDAI health-insurance rules by searching th
 - Dataset: [`bhavyananda17/policyguard-irdai-qa`](https://huggingface.co/datasets/bhavyananda17/policyguard-irdai-qa) (questions, trajectories, corpus)
 - Write-up: [docs/hf_article.md](docs/hf_article.md) · Abstract: [docs/abstract.md](docs/abstract.md)
 - Collection: [PolicyGuard (Lexsi hackathon)](https://huggingface.co/collections/bhavyananda17/policyguard-lexsi-hackathon-6af8a31e037f3d7eaf41b4b4)
-- Hardware: one MacBook Pro (M5 Pro, 24 GB). Training: about 50 minutes with MLX. Cost: zero (free Groq tier for data generation).
+- Hardware: one MacBook Pro (M5 Pro, 24 GB). Training: about an hour with MLX. Cost: zero (free Groq tier for data generation).
 
 ## Why this problem
 
@@ -31,7 +31,8 @@ Test set: 95 questions that share no source passage with training (61 single-rul
 | Setup | Correct | 95% CI | Correct or partly correct | Says "not found" wrongly |
 |---|---|---|---|---|
 | Untrained, agent loop (model decides when to search) | 4% | 0–8% | 24% | 14% |
-| **PolicyGuard v4, agent loop** | **26%** | 16–35% | **49%** | **3%** |
+| PolicyGuard v4, agent loop | 26% | 16–35% | 49% | 3% |
+| **PolicyGuard v5, agent loop (released)** | **38%** | 27–50% | **53%** | **1%** |
 | Untrained, fixed pipeline (always search once, then answer) | 32% | 23–43% | 54% | 11% |
 
 **Behaviour (deterministic metrics, 95 questions)**
@@ -40,13 +41,14 @@ Test set: 95 questions that share no source passage with training (61 single-rul
 |---|---|---|---|---|
 | Untrained, no search | 0 | 0% | 0.50 / 0.19 / 0.28 | 0.46 |
 | Untrained, agent loop | 0.10 | 3% | 0.29 / 0.19 / 0.23 | 0.37 |
-| **PolicyGuard v4, agent loop** | **1.07** | **42%** | **0.78** / 0.33 / 0.47 | 0.52 |
+| PolicyGuard v4, agent loop | 1.07 | 42% | 0.78 / 0.33 / 0.47 | 0.52 |
+| **PolicyGuard v5, agent loop** | **1.21** | **45%** | **0.80** / 0.19 / 0.31 | 0.51 |
 | Untrained, fixed pipeline | 1.00 (forced) | 30% | 0.56 / 0.48 / 0.51 | 0.66 |
 
 What this shows, plainly:
 
-1. **Fine-tuning turns Tiny Aya into a working search agent.** In the same agent loop, correct answers go from 4% to 26%, correct-or-partial from 24% to 49%, and citing the right passage from 3% to 42%. The untrained model searches on 10% of questions and invents citations; the tuned model searches every time and retries with sharper terms when the first search misses.
-2. **It does not beat a fixed always-search pipeline on accuracy.** The fixed pipeline is ahead (32% vs 26% correct); the confidence intervals overlap, so with 74 questions we cannot say which is better. PolicyGuard cites the right passage more often (42% vs 30%), almost never refuses an answerable question (3% vs 11%), and is more precise when it does say "not found" (0.78 vs 0.56), but catches fewer unanswerable questions (recall 0.33 vs 0.48).
+1. **Fine-tuning turns Tiny Aya into a working search agent.** In the same agent loop, correct answers go from 4% to 38% (v5), correct-or-partial from 24% to 53%, and citing the right passage from 3% to 45%. The untrained model searches on 10% of questions and invents citations; the tuned model searches every time and retries with sharper terms when the first search misses.
+2. **It is level with a fixed always-search pipeline, not clearly ahead.** v5 scores 38% against the pipeline's 32% at 4 results, but the paired 95% CI on the difference is −7 to +18 points. PolicyGuard cites the right passage more often (45% vs 30%), almost never refuses an answerable question (1% vs 11%), and is more precise when it does say "not found" (0.80 vs 0.56). It catches far fewer unanswerable questions (recall 0.19 vs 0.48). With 6 results instead of 4 the fixed pipeline reaches 47%, still the best setup measured ([below](#two-follow-up-checks)).
 3. **The replaced-rule result is inconclusive.** With only 8 replaced-rule test questions from about 2 topics, every setup lands between 25% and 50% old-rule use, and we make no claim either way.
 4. **Absolute accuracy is low for every setup.** Search finds the source passage for 55 of 77 answerable questions (71%) at 4 results, and a 3B model reading dense regulatory text often drops a condition or a date.
 
@@ -80,7 +82,7 @@ Acting on the k=6 result, v5 changes three things in the training data ([scripts
 - **Keyword first queries** in about 40% of trajectories, instead of always copying the question.
 - **Fuller self-distilled answers**, taken from the untrained model's 6-result fixed-pipeline answers and capped at 150 words.
 
-Everything else is the same as v4: same split, rank, layers, 3 epochs. v5 is evaluated locally; the public adapter on Hugging Face is still v4.
+Everything else is the same as v4: same split, rank, layers, 3 epochs. v5 is the released adapter on Hugging Face; v4 is in that repo's commit history.
 
 | Setup | Correct (judge, 95% CI) | Correct or partly correct | Says "not found" wrongly | Cites a passage that holds the answer | "Not found" P / R / F1 |
 |---|---|---|---|---|---|
@@ -189,6 +191,7 @@ python src/gen_questions.py                     # optional: questions are commit
 python src/build_dataset.py                     # train/test split + trajectories -> data/sft/train.jsonl
 python src/run_agent.py --mode naive_rag --split train --name distill_train_rag
 (cd src && python distill_answers.py)           # -> data/sft/train_v4.jsonl
+# v5 (released): bash scripts/round5b.sh does distillation at k=6, dataset, training and evaluation in one go
 SFT_FILE=data/sft/train_v4.jsonl MLX_OUT=data/mlx_v4 NC_SHARE=0.2 python src/make_mlx_data.py
 mlx_lm.lora -c configs/lora_v4.yaml             # -> adapters/policyguard_v4 (~50 min on M5 Pro)
 for m in no_tools naive_rag agent agent_force; do python src/run_agent.py --mode $m; done

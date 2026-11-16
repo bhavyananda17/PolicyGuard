@@ -8,7 +8,7 @@ Indian health-insurance rules come from IRDAI circulars, and newer circulars rep
 - **Search index:** 495 chunks of three public IRDAI circulars (2024 current, 2020 replaced) with hybrid MiniLM and TF-IDF retrieval. Each result shows its date but not whether it is current.
 - **Questions:** Groq's free tier generated single-rule, two-rule, replaced-rule and unanswerable questions. Key facts had to appear verbatim in the source; 335 were kept, split so train and test share no source passage.
 - **Trajectories:** plain-text ReAct (`Thought` / `Action: search_docs` / `Observation` / `Final Answer [chunk N]`). Search steps are real calls to the index, with variants for searching again, answers in the last result and near-miss refusals. 79 answers were self-distilled from the untrained model's filtered outputs.
-- **Training:** MLX LoRA at rank 16 on 0.10% of the parameters, about 50 minutes on a laptop.
+- **Training:** MLX LoRA at rank 16 on 0.10% of the parameters, about an hour on a laptop.
 
 **Evaluation.** 95 held-out questions, with the same model, index and greedy decoding for every setup:
 - an LLM judge (qwen3.8-27b) on the 74 answerable questions;
@@ -16,8 +16,8 @@ Indian health-insurance rules come from IRDAI circulars, and newer circulars rep
 - bootstrap confidence intervals.
 
 **Results.**
-- **Fine-tuning produces a working agent.** In the same agent loop, judged-correct answers rise from 4% to 26% and right-passage citations from 3% to 42%. Wrong refusals fall from 14% to 3%, and "not found" precision is 0.78.
-- **It does not beat a fixed always-search-once pipeline on the untrained model.** That pipeline scores 32% (intervals overlap), and 47% with 6 results instead of 4. Retraining PolicyGuard on 6-result observations (v5) lifts it from 26% to 38% (paired CI +3 to +23), still short of 47%.
+- **Fine-tuning produces a working agent.** In the same agent loop, judged-correct answers rise from 4% to 38% (released v5) and right-passage citations from 3% to 45%. Wrong refusals fall from 14% to 1%, and "not found" precision is 0.80.
+- **It does not clearly beat a fixed always-search-once pipeline on the untrained model.** That pipeline scores 32% (intervals overlap), and 47% with 6 results instead of 4. v5, retrained on 6-result observations, gains 12 points over v4 (paired CI +3 to +23) but catches fewer unanswerable questions.
 - **The training mix sets the answer/refuse balance.** One repeated refusal phrase taught the model to refuse 26% of answerable questions. Varied wording and near-miss examples reduced this to 0–3%, at the cost of catching fewer unanswerable questions.
 
 **Limitations.**

@@ -20,11 +20,11 @@ tags:
 ## TL;DR
 
 - I fine-tuned [Tiny Aya Global](https://huggingface.co/CohereLabs/tiny-aya-global) (3.35B) with LoRA to act as a search agent over Indian health-insurance circulars. It searches, cites passages as `[chunk N]`, and says "not found" instead of guessing.
-- **What fine-tuning bought.** In the same agent loop, judged-correct answers go from **4% to 26%**, and citing the right passage goes from **3% to 42%**. Wrongly refusing an answerable question drops from 14% to 3%.
-- **What it didn't buy.** It does **not** beat a fixed "always search once, then answer" pipeline built on the same untrained model (32% correct). With 4 results the confidence intervals overlap. With 6 results the fixed pipeline pulls clearly ahead (47% vs 30%).
-- **A fifth round closed part of the gap.** v5, trained on 6-result observations with fuller self-distilled answers, reaches **38%** correct, 12 points above v4 (paired 95% CI +3 to +23). It still trails the fixed 6-result pipeline (47%), though that gap is no longer statistically clear.
+- **What fine-tuning bought.** In the same agent loop, judged-correct answers go from **4% to 26%** (v4) and then **38%** (v5, the released adapter). Citing the right passage goes from **3% to 45%**, and wrongly refusing an answerable question drops from 14% to 1%.
+- **What it didn't buy.** It does **not** clearly beat a fixed "always search once, then answer" pipeline built on the same untrained model. With 4 results that pipeline scores 32% and the intervals overlap. With 6 results it scores 47%, the best setup I measured.
+- **A fifth round closed part of the gap.** v5, trained on 6-result observations with fuller self-distilled answers, is 12 points above v4 (paired 95% CI +3 to +23). It still trails the fixed 6-result pipeline, though that gap is no longer statistically clear. The cost: it catches fewer unanswerable questions.
 - **The grading holds up.** A second judge model agrees on 80% of verdicts (κ = 0.70) and ranks the setups the same way.
-- **Cost.** Everything ran on one laptop (MacBook Pro M5 Pro, 24 GB) and the free Groq tier, at zero cost. Training took about 50 minutes with MLX and touched 0.10% of the parameters.
+- **Cost.** Everything ran on one laptop (MacBook Pro M5 Pro, 24 GB) and the free Groq tier, at zero cost. Training took about an hour with MLX and touched 0.10% of the parameters.
 
 ![Correct answers with 95% confidence intervals for each setup](https://raw.githubusercontent.com/bhavyananda17/lexsi_labs_project/main/docs/figures/correct_ci.png)
 
@@ -120,7 +120,7 @@ The idea is that answers written in the model's own voice are easier to learn th
 | Trainable parameters | 3.4M (0.10%) |
 | Data | 339 trajectories split into 781 per-turn examples; about 20% "not found" |
 | Loss | assistant turns only: search decisions, queries and answers, never the retrieved text |
-| Schedule | 3 epochs, learning rate 1e-4, batch 2, about 50 minutes on an M5 Pro |
+| Schedule | 3 epochs, learning rate 1e-4, batch 2, about 50 minutes (v4) to an hour (v5) on an M5 Pro |
 | Validation loss | 2.79 → 0.43 |
 
 For people without a Mac, the adapter is also published in PEFT format. The conversion produces the same greedy outputs as MLX on the questions I checked.
@@ -165,15 +165,16 @@ All setups use the same base model, the same search index and greedy decoding:
 | Setup | Correct (95% CI) | Correct or partly correct | Wrongly says "not found" | Cites the right passage | "Not found" P / R / F1 |
 |---|---|---|---|---|---|
 | Untrained, agent loop | 4% (0–8) | 24% | 14% | 3% | 0.29 / 0.19 / 0.23 |
-| **PolicyGuard v4, agent loop** | **26% (16–35)** | **49%** | **3%** | **42%** | **0.78** / 0.33 / 0.47 |
+| PolicyGuard v4, agent loop | 26% (16–35) | 49% | 3% | 42% | 0.78 / 0.33 / 0.47 |
+| **PolicyGuard v5, agent loop (released, see [round 5](#what-changed-across-five-training-rounds))** | **38% (27–50)** | **53%** | **1%** | **45%** | **0.80** / 0.19 / 0.31 |
 | Untrained, fixed pipeline | 32% (23–43) | 54% | 11% | 30% | 0.56 / 0.48 / 0.51 |
 
 **1. Fine-tuning makes a working agent.**
 - The untrained model searches on only 10% of questions and invents citations.
 - PolicyGuard searches on essentially every question (1.07 searches per question), searches again with sharper terms when the first search misses, and cites a passage it actually saw.
 
-**2. The fixed pipeline is still as good or better on accuracy.**
-- On correctness, the fixed pipeline is 6 points ahead, inside overlapping confidence intervals.
+**2. Through v4, the fixed pipeline was as good or better on accuracy.** (v5 changes part of this; see round 5 below.)
+- On correctness, the fixed pipeline is 6 points ahead of v4, inside overlapping confidence intervals.
 - PolicyGuard is better on some behaviour:
   - It cites the right passage more often (42% vs 30%).
   - It rarely refuses answerable questions (3% vs 11%).
@@ -233,7 +234,7 @@ On the same questions, v5 beats v4 by 12 points (it gains 12 questions and loses
 - **It catches fewer unanswerable questions.** Recall fell to 4 of 21, though its refusals stay precise.
 - **It mostly still copies the question** as its first query (82 of 98, down from 97), so the keyword-query training only partly took.
 
-The public adapter is still v4; v5 was evaluated locally.
+v5 is now the released adapter; v4 stays in the Hugging Face repo's commit history.
 
 ## Two measurement mistakes I caught
 

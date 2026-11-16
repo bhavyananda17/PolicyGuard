@@ -76,15 +76,16 @@ footer { margin-top: 48px; color: var(--muted); font-size: 0.85rem; }
       <th class="num">Cites the right passage</th><th class="num">Wrongly says "not found"</th></tr></thead>
     <tbody>
       <tr><td>Untrained Tiny Aya, agent loop</td><td class="num">4%</td><td class="num">24%</td><td class="num">3%</td><td class="num">14%</td></tr>
-      <tr class="hl"><td>PolicyGuard (fine-tuned), agent loop</td><td class="num">26%</td><td class="num">49%</td><td class="num">42%</td><td class="num">3%</td></tr>
+      <tr class="hl"><td>PolicyGuard v5 (fine-tuned), agent loop</td><td class="num">38%</td><td class="num">53%</td><td class="num">45%</td><td class="num">1%</td></tr>
       <tr><td>Untrained Tiny Aya, always search once</td><td class="num">32%</td><td class="num">54%</td><td class="num">30%</td><td class="num">11%</td></tr>
     </tbody>
   </table>
   </div>
   <p class="note">74 answerable held-out test questions, graded by an LLM judge (qwen3.8-27b) against reference answers.
     Fine-tuning turns the untrained model, which rarely searches and invents citations, into a working search agent.
-    It does not beat a simple always-search pipeline on accuracy (95% CIs 16–35% vs 23–43% overlap); it cites better and rarely
-    refuses answerable questions. Not legal or financial advice.</p>
+    PolicyGuard is level with a simple always-search pipeline on accuracy (95% CIs 27–50% vs 23–43%), cites better and almost never
+    refuses an answerable question, but it catches only 4 of 21 questions the documents don't answer. Given 6 search results instead of 4,
+    the always-search pipeline reaches 47% and stays the best setup measured. Not legal or financial advice.</p>
 
   <h2>Compare answers on the test set</h2>
   <div class="controls">

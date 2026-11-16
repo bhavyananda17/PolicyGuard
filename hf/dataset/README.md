@@ -25,6 +25,8 @@ configs:
   data_files:
   - split: train
     path: trajectories_train.jsonl
+  - split: train_v5
+    path: trajectories_train_v5.jsonl
 - config_name: corpus
   data_files:
   - split: train
@@ -68,15 +70,15 @@ Public IRDAI circulars from irdai.gov.in (IRDAI is not affiliated with this data
 
 Train and test share no source passage: items that share a passage, or a replaced-rule passage, are kept on the same side. 3 test items (`test-0022`, `test-0062`, `test-0065`) come from blank policy templates whose reference value is literally "XXX"; they are excluded from scoring (`test_exclusions.json`).
 
-### `trajectories` (373 train)
+### `trajectories` (373 in `train`, 375 in `train_v5`)
 
-ReAct conversations used for supervised fine-tuning, with fields `messages` (system / user / assistant turns), `type`, and optional `aug` and `answer_source`.
+ReAct conversations used for supervised fine-tuning. `train` built the v4 adapter. `train_v5` built the current v5 adapter: it shows 6 search results per observation instead of 4, starts about 40% of trajectories with a short keyword query, and has 49 self-distilled answers taken from 6-result answers. Both have the fields `messages` (system / user / assistant turns), `type`, and optional `aug` and `answer_source`.
 
 - **Format:**
   - Assistant turns are `Thought: …` followed by `Action: search_docs("…")` or `Final Answer: … [chunk N]`.
   - Search results come back as user turns starting with `Observation:`.
 - **Search steps:** real calls to the index, built by code.
-- **Final answers:** from the teacher, or `answer_source: "self_distilled"` for 79 answers taken from the untrained model's own always-search answers.
+- **Final answers:** from the teacher, or `answer_source: "self_distilled"` for answers taken from the untrained model's own always-search answers (79 in `train`, 49 in `train_v5`).
 - **Variants (`aug`):**
   - `retry`: a vague first search misses, a sharper second search finds the passage.
   - `buried`: the answering passage is the last result.

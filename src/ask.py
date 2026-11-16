@@ -16,7 +16,7 @@ from search import Searcher
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("question")
-    ap.add_argument("--adapter", default="adapters/policyguard_v4", help='LoRA adapter dir, or "none"')
+    ap.add_argument("--adapter", default="adapters/policyguard_v5", help='LoRA adapter dir, or "none"')
     ap.add_argument("--mode", default="agent", choices=["agent", "agent_force", "naive_rag", "no_tools"])
     a = ap.parse_args()
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
