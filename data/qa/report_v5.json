@@ -1,0 +1,32 @@
+{
+  "generated": 377,
+  "after_dedupe": 335,
+  "train_items": {
+    "single_hop": 132,
+    "multi_hop": 19,
+    "superseded": 23,
+    "not_covered": 63
+  },
+  "test_items": {
+    "single_hop": 61,
+    "multi_hop": 8,
+    "superseded": 8,
+    "not_covered": 21
+  },
+  "trajectories": {
+    "single_hop": 241,
+    "multi_hop": 16,
+    "superseded": 30,
+    "not_covered": 88
+  },
+  "retry_augmented": 60,
+  "buried_augmented": 60,
+  "nearmiss_augmented": 25,
+  "dropped_not_retrieved": {
+    "single_hop": 4,
+    "multi_hop": 3,
+    "superseded": 0,
+    "not_covered": 0
+  },
+  "not_covered_share_train": 0.235
+}

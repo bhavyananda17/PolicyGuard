@@ -71,9 +71,43 @@ What this shows, plainly:
 | PolicyGuard v4, agent loop | 26% → **30%** (CI 20–41%) | 42% → 35% | 3% → 0% |
 | Untrained, fixed pipeline | 32% → **47%** (CI 35–58%) | 30% → 43% | 11% → 7% |
 
-More context helps the fixed pipeline far more than PolicyGuard. PolicyGuard was trained only on 4-result observations and doesn't use the extra results as well, so at k=6 the fixed pipeline is ahead on both accuracy and citation. **The best setup we measured is the untrained model with a fixed 6-result pipeline (47% correct)**, and that is the baseline a future PolicyGuard should be trained against. The headline tables above stay at k=4, the setting PolicyGuard was trained for.
+More context helps the fixed pipeline far more than PolicyGuard. PolicyGuard was trained only on 4-result observations and doesn't use the extra results as well, so at k=6 the fixed pipeline is ahead on both accuracy and citation. **The best setup we measured is the untrained model with a fixed 6-result pipeline (47% correct)**, and that is the baseline a future PolicyGuard should be trained against. v5, below, was trained this way. The headline tables above stay at k=4, the setting PolicyGuard was trained for.
 
-### How we got here (four training rounds)
+### v5: training with the context it gets
+
+Acting on the k=6 result, v5 changes three things in the training data ([scripts/round5b.sh](scripts/round5b.sh)):
+- **6-result observations** instead of 4.
+- **Keyword first queries** in about 40% of trajectories, instead of always copying the question.
+- **Fuller self-distilled answers**, taken from the untrained model's 6-result fixed-pipeline answers and capped at 150 words.
+
+Everything else is the same as v4: same split, rank, layers, 3 epochs. v5 is evaluated locally; the public adapter on Hugging Face is still v4.
+
+| Setup | Correct (judge, 95% CI) | Correct or partly correct | Says "not found" wrongly | Cites a passage that holds the answer | "Not found" P / R / F1 |
+|---|---|---|---|---|---|
+| PolicyGuard v4, k=4 | 26% (16–35) | 49% | 3% | 61% | 0.78 / 0.33 / 0.47 |
+| **PolicyGuard v5, k=4** | **38% (27–50)** | **53%** | 1% | 61% | 0.80 / 0.19 / 0.31 |
+| PolicyGuard v5, k=6 | 32% (22–43) | 46% | 1% | 54% | 0.83 / 0.24 / 0.37 |
+| Untrained, fixed pipeline, k=4 | 32% (23–43) | 54% | 11% | 41% | 0.56 / 0.48 / 0.51 |
+| Untrained, fixed pipeline, k=6 | 47% (35–58) | 58% | 7% | 50% | 0.62 / 0.38 / 0.47 |
+
+Paired bootstrap on the same 74 answerable questions:
+
+| Comparison | Difference in correct | 95% CI |
+|---|---|---|
+| v5 vs v4 (both k=4) | **+12 points** (12 questions won, 3 lost) | +3 to +23 |
+| v5 (k=4) vs untrained fixed pipeline (k=4) | +5 points | −7 to +18 |
+| Untrained fixed pipeline (k=6) vs v5 (k=4) | +9.5 points | −3 to +20 |
+
+What this shows:
+- **v5 is the first version clearly better than v4.** It is the best agent we trained, and it is now level with or slightly above the fixed pipeline at k=4.
+- **It still doesn't beat the fixed pipeline at k=6** (47%), though the gap is no longer statistically clear.
+- **It is oddly worse when given 6 results (32%)** than 4 (38%), even though it was trained on 6. The difference is within noise (7 questions vs 3).
+- **It catches fewer unanswerable questions.** "Not found" recall fell from 0.33 to 0.19 (4 of 21). Its refusals stay precise (0.80), and it almost never refuses an answerable question.
+- **It still mostly copies the question** as its first query (82 of 98, down from 97). The keyword-query training only partly took.
+
+"Cites a passage that holds the answer" (`cites_answer` in `src/score.py`) counts a cited chunk as right if it is a source chunk or contains a key fact. Chunks overlap, so the stricter "cites the source chunk" metric undercounts correct citations.
+
+### How we got here (five training rounds)
 
 | Version | Change | Correct (judge) | Says "not found" wrongly | "Not found" F1 |
 |---|---|---|---|---|
@@ -81,6 +115,7 @@ More context helps the fixed pipeline far more than PolicyGuard. PolicyGuard was
 | v2 | 18% "not found", 60 "search again" examples | 24% | 18% | 0.55 |
 | v3 | + answer passage moved to last result, near-miss "not found" examples, 3 epochs | 26% | 0% | 0.50 |
 | v4 | + 79 final answers self-distilled from the untrained model's fixed-pipeline answers | 26% | 3% | 0.47 |
+| v5 | 6-result observations, 40% keyword first queries, fuller distilled answers | **38%** | 1% | 0.31 |
 
 The main lesson: the share and kind of "not found" examples sets a trade-off between answering and refusing. v1 learned to refuse 26% of answerable questions; v3 never refuses but misses more unanswerable ones. A single "not found" sentence repeated in training made refusal an easy exit; varied wording and near-miss examples (on-topic results that do not answer) moved the model back toward answering.
 

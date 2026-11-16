@@ -1,28 +1,29 @@
 [
   {
-    "run": "base_naive_rag",
+    "run": "base_no_tools",
     "n": 95,
-    "key_fact_recall": 0.598,
+    "key_fact_recall": 0.177,
     "kfr_ci": [
-      0.5,
-      0.699
+      0.096,
+      0.267
     ],
-    "answer_overlap": 0.655,
+    "answer_overlap": 0.46,
     "aov_ci": [
-      0.602,
-      0.705
+      0.407,
+      0.511
     ],
-    "false_not_found": 0.108,
-    "old_rule_rate": 0.5,
+    "false_not_found": 0.054,
+    "old_rule_rate": 0.375,
     "old_ci": [
       0.125,
-      0.875
+      0.75
     ],
-    "not_found_f1": 0.513,
-    "not_found_precision": 0.556,
-    "not_found_recall": 0.476,
-    "searches_per_q": 1.0,
-    "cites_source": 0.297,
+    "not_found_f1": 0.276,
+    "not_found_precision": 0.5,
+    "not_found_recall": 0.19,
+    "searches_per_q": 0.0,
+    "cites_source": 0.0,
+    "cites_answer": 0.0,
     "invalid_format": 0
   },
   {
@@ -49,58 +50,61 @@
     "not_found_recall": 0.19,
     "searches_per_q": 0.105,
     "cites_source": 0.027,
+    "cites_answer": 0.027,
     "invalid_format": 0
   },
   {
-    "run": "tuned_v4_agent",
+    "run": "base_agent_force",
     "n": 95,
-    "key_fact_recall": 0.323,
+    "key_fact_recall": 0.118,
     "kfr_ci": [
-      0.219,
-      0.426
+      0.051,
+      0.191
     ],
-    "answer_overlap": 0.521,
+    "answer_overlap": 0.271,
     "aov_ci": [
-      0.462,
-      0.583
+      0.204,
+      0.34
     ],
-    "false_not_found": 0.027,
+    "false_not_found": 0.135,
+    "old_rule_rate": 0.375,
+    "old_ci": [
+      0.125,
+      0.75
+    ],
+    "not_found_f1": 0.368,
+    "not_found_precision": 0.412,
+    "not_found_recall": 0.333,
+    "searches_per_q": 0.6,
+    "cites_source": 0.176,
+    "cites_answer": 0.176,
+    "invalid_format": 0
+  },
+  {
+    "run": "base_naive_rag",
+    "n": 95,
+    "key_fact_recall": 0.598,
+    "kfr_ci": [
+      0.5,
+      0.699
+    ],
+    "answer_overlap": 0.655,
+    "aov_ci": [
+      0.602,
+      0.705
+    ],
+    "false_not_found": 0.108,
     "old_rule_rate": 0.5,
     "old_ci": [
       0.125,
       0.875
     ],
-    "not_found_f1": 0.467,
-    "not_found_precision": 0.778,
-    "not_found_recall": 0.333,
-    "searches_per_q": 1.074,
-    "cites_source": 0.419,
-    "invalid_format": 0
-  },
-  {
-    "run": "tuned_v4_agent_k6",
-    "n": 95,
-    "key_fact_recall": 0.387,
-    "kfr_ci": [
-      0.274,
-      0.495
-    ],
-    "answer_overlap": 0.524,
-    "aov_ci": [
-      0.457,
-      0.589
-    ],
-    "false_not_found": 0.0,
-    "old_rule_rate": 0.5,
-    "old_ci": [
-      0.125,
-      0.875
-    ],
-    "not_found_f1": 0.5,
-    "not_found_precision": 1.0,
-    "not_found_recall": 0.333,
-    "searches_per_q": 1.105,
-    "cites_source": 0.351,
+    "not_found_f1": 0.513,
+    "not_found_precision": 0.556,
+    "not_found_recall": 0.476,
+    "searches_per_q": 1.0,
+    "cites_source": 0.297,
+    "cites_answer": 0.405,
     "invalid_format": 0
   },
   {
@@ -127,6 +131,169 @@
     "not_found_recall": 0.381,
     "searches_per_q": 1.0,
     "cites_source": 0.432,
+    "cites_answer": 0.5,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v2_agent_fixparse",
+    "n": 95,
+    "key_fact_recall": 0.274,
+    "kfr_ci": [
+      0.174,
+      0.377
+    ],
+    "answer_overlap": 0.397,
+    "aov_ci": [
+      0.325,
+      0.481
+    ],
+    "false_not_found": 0.176,
+    "old_rule_rate": 0.125,
+    "old_ci": [
+      0.0,
+      0.375
+    ],
+    "not_found_f1": 0.553,
+    "not_found_precision": 0.5,
+    "not_found_recall": 0.619,
+    "searches_per_q": 1.347,
+    "cites_source": 0.311,
+    "cites_answer": 0.459,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v3_agent",
+    "n": 95,
+    "key_fact_recall": 0.32,
+    "kfr_ci": [
+      0.222,
+      0.426
+    ],
+    "answer_overlap": 0.455,
+    "aov_ci": [
+      0.399,
+      0.519
+    ],
+    "false_not_found": 0.0,
+    "old_rule_rate": 0.5,
+    "old_ci": [
+      0.125,
+      0.875
+    ],
+    "not_found_f1": 0.5,
+    "not_found_precision": 1.0,
+    "not_found_recall": 0.333,
+    "searches_per_q": 1.042,
+    "cites_source": 0.459,
+    "cites_answer": 0.622,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v4_agent",
+    "n": 95,
+    "key_fact_recall": 0.323,
+    "kfr_ci": [
+      0.219,
+      0.426
+    ],
+    "answer_overlap": 0.521,
+    "aov_ci": [
+      0.462,
+      0.583
+    ],
+    "false_not_found": 0.027,
+    "old_rule_rate": 0.5,
+    "old_ci": [
+      0.125,
+      0.875
+    ],
+    "not_found_f1": 0.467,
+    "not_found_precision": 0.778,
+    "not_found_recall": 0.333,
+    "searches_per_q": 1.074,
+    "cites_source": 0.419,
+    "cites_answer": 0.608,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v4_agent_k6",
+    "n": 95,
+    "key_fact_recall": 0.387,
+    "kfr_ci": [
+      0.274,
+      0.495
+    ],
+    "answer_overlap": 0.524,
+    "aov_ci": [
+      0.457,
+      0.589
+    ],
+    "false_not_found": 0.0,
+    "old_rule_rate": 0.5,
+    "old_ci": [
+      0.125,
+      0.875
+    ],
+    "not_found_f1": 0.5,
+    "not_found_precision": 1.0,
+    "not_found_recall": 0.333,
+    "searches_per_q": 1.105,
+    "cites_source": 0.351,
+    "cites_answer": 0.486,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v5_agent",
+    "n": 95,
+    "key_fact_recall": 0.366,
+    "kfr_ci": [
+      0.258,
+      0.48
+    ],
+    "answer_overlap": 0.509,
+    "aov_ci": [
+      0.441,
+      0.577
+    ],
+    "false_not_found": 0.014,
+    "old_rule_rate": 0.375,
+    "old_ci": [
+      0.125,
+      0.75
+    ],
+    "not_found_f1": 0.308,
+    "not_found_precision": 0.8,
+    "not_found_recall": 0.19,
+    "searches_per_q": 1.211,
+    "cites_source": 0.446,
+    "cites_answer": 0.608,
+    "invalid_format": 0
+  },
+  {
+    "run": "tuned_v5_agent_k6",
+    "n": 95,
+    "key_fact_recall": 0.311,
+    "kfr_ci": [
+      0.216,
+      0.419
+    ],
+    "answer_overlap": 0.472,
+    "aov_ci": [
+      0.405,
+      0.546
+    ],
+    "false_not_found": 0.014,
+    "old_rule_rate": 0.25,
+    "old_ci": [
+      0.0,
+      0.5
+    ],
+    "not_found_f1": 0.37,
+    "not_found_precision": 0.833,
+    "not_found_recall": 0.238,
+    "searches_per_q": 1.168,
+    "cites_source": 0.365,
+    "cites_answer": 0.541,
     "invalid_format": 0
   }
 ]

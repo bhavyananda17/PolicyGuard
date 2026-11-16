@@ -1,0 +1,574 @@
+=== 04:43 1/7 naive RAG (k=6) on train questions, for self-distilled answers
+W1116 04:43:19.324000 75188 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 3328.52it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 14707.84it/s]
+[1/237] single_hop    2.09s searches=1
+[2/237] single_hop    2.44s searches=1
+[3/237] single_hop    3.18s searches=1
+[4/237] single_hop    1.67s searches=1
+[5/237] single_hop    4.64s searches=1
+[6/237] single_hop    3.72s searches=1
+[7/237] single_hop    8.91s searches=1
+[8/237] single_hop    4.89s searches=1
+[9/237] single_hop    5.55s searches=1
+[10/237] single_hop    2.88s searches=1
+[11/237] single_hop     7.6s searches=1
+[12/237] single_hop    6.67s searches=1
+[13/237] single_hop    1.68s searches=1
+[14/237] single_hop    3.07s searches=1
+[15/237] single_hop    2.11s searches=1
+[16/237] single_hop    1.89s searches=1
+[17/237] single_hop    2.54s searches=1
+[18/237] single_hop    1.73s searches=1
+[19/237] single_hop    3.48s searches=1
+[20/237] single_hop    4.82s searches=1
+[21/237] single_hop    3.35s searches=1
+[22/237] single_hop    5.71s searches=1
+[23/237] single_hop    2.24s searches=1
+[24/237] single_hop    1.56s searches=1
+[25/237] single_hop    1.35s searches=1
+[26/237] single_hop    3.35s searches=1
+[27/237] single_hop    1.57s searches=1
+[28/237] single_hop    3.55s searches=1
+[29/237] single_hop    1.66s searches=1
+[30/237] single_hop    1.39s searches=1
+[31/237] single_hop    2.36s searches=1
+[32/237] single_hop    1.64s searches=1
+[33/237] single_hop    1.83s searches=1
+[34/237] single_hop    1.86s searches=1
+[35/237] single_hop     2.0s searches=1
+[36/237] single_hop    2.59s searches=1
+[37/237] single_hop    1.71s searches=1
+[38/237] single_hop     2.2s searches=1
+[39/237] single_hop     2.0s searches=1
+[40/237] single_hop    3.49s searches=1
+[41/237] single_hop    3.53s searches=1
+[42/237] single_hop    2.29s searches=1
+[43/237] single_hop    4.98s searches=1
+[44/237] single_hop    5.24s searches=1
+[45/237] single_hop    1.79s searches=1
+[46/237] single_hop     2.0s searches=1
+[47/237] single_hop    2.21s searches=1
+[48/237] single_hop    8.05s searches=1
+[49/237] single_hop    5.95s searches=1
+[50/237] single_hop     2.6s searches=1
+[51/237] single_hop    2.62s searches=1
+[52/237] single_hop    4.73s searches=1
+[53/237] single_hop    3.75s searches=1
+[54/237] single_hop    1.13s searches=1
+[55/237] single_hop    1.36s searches=1
+[56/237] single_hop    3.48s searches=1
+[57/237] single_hop    1.58s searches=1
+[58/237] single_hop    2.52s searches=1
+[59/237] single_hop    1.39s searches=1
+[60/237] single_hop    9.69s searches=1
+[61/237] single_hop    2.22s searches=1
+[62/237] single_hop    1.89s searches=1
+[63/237] single_hop    3.12s searches=1
+[64/237] single_hop    2.05s searches=1
+[65/237] single_hop    6.73s searches=1
+[66/237] single_hop    3.26s searches=1
+[67/237] single_hop    9.35s searches=1
+[68/237] single_hop    4.11s searches=1
+[69/237] single_hop    3.49s searches=1
+[70/237] single_hop    4.75s searches=1
+[71/237] single_hop    1.97s searches=1
+[72/237] single_hop    2.82s searches=1
+[73/237] single_hop    3.05s searches=1
+[74/237] single_hop    2.11s searches=1
+[75/237] single_hop    2.99s searches=1
+[76/237] single_hop    4.62s searches=1
+[77/237] single_hop     4.3s searches=1
+[78/237] single_hop    1.55s searches=1
+[79/237] single_hop     4.5s searches=1
+[80/237] single_hop    7.71s searches=1
+[81/237] single_hop    1.85s searches=1
+[82/237] single_hop    5.63s searches=1
+[83/237] single_hop    6.01s searches=1
+[84/237] single_hop     4.2s searches=1
+[85/237] single_hop    2.37s searches=1
+[86/237] single_hop    1.92s searches=1
+[87/237] single_hop    5.65s searches=1
+[88/237] single_hop    2.55s searches=1
+[89/237] single_hop    3.24s searches=1
+[90/237] single_hop    3.27s searches=1
+[91/237] single_hop    2.74s searches=1
+[92/237] single_hop    5.19s searches=1
+[93/237] single_hop    3.31s searches=1
+[94/237] single_hop     8.5s searches=1
+[95/237] single_hop    7.35s searches=1
+[96/237] single_hop     3.3s searches=1
+[97/237] single_hop    3.66s searches=1
+[98/237] single_hop    4.22s searches=1
+[99/237] single_hop    3.08s searches=1
+[100/237] single_hop   10.75s searches=1
+[101/237] single_hop    3.83s searches=1
+[102/237] single_hop    2.98s searches=1
+[103/237] single_hop    4.06s searches=1
+[104/237] single_hop    2.45s searches=1
+[105/237] single_hop    5.13s searches=1
+[106/237] single_hop    5.79s searches=1
+[107/237] single_hop    5.27s searches=1
+[108/237] single_hop    2.52s searches=1
+[109/237] single_hop   10.28s searches=1
+[110/237] single_hop    1.99s searches=1
+[111/237] single_hop    1.81s searches=1
+[112/237] single_hop    4.49s searches=1
+[113/237] single_hop    9.73s searches=1
+[114/237] single_hop    2.18s searches=1
+[115/237] single_hop    6.37s searches=1
+[116/237] single_hop    1.86s searches=1
+[117/237] single_hop    3.15s searches=1
+[118/237] single_hop    2.62s searches=1
+[119/237] single_hop     5.0s searches=1
+[120/237] single_hop    3.36s searches=1
+[121/237] single_hop    4.77s searches=1
+[122/237] single_hop    3.22s searches=1
+[123/237] single_hop    2.92s searches=1
+[124/237] single_hop    5.01s searches=1
+[125/237] single_hop    1.38s searches=1
+[126/237] single_hop     1.9s searches=1
+[127/237] single_hop    1.37s searches=1
+[128/237] single_hop    3.35s searches=1
+[129/237] single_hop    3.33s searches=1
+[130/237] single_hop    2.17s searches=1
+[131/237] single_hop    1.08s searches=1
+[132/237] single_hop    6.34s searches=1
+[133/237] multi_hop     5.53s searches=1
+[134/237] multi_hop     5.03s searches=1
+[135/237] multi_hop     1.55s searches=1
+[136/237] multi_hop     7.16s searches=1
+[137/237] multi_hop     2.67s searches=1
+[138/237] multi_hop     8.23s searches=1
+[139/237] multi_hop     4.86s searches=1
+[140/237] multi_hop     3.34s searches=1
+[141/237] multi_hop     2.05s searches=1
+[142/237] multi_hop     3.84s searches=1
+[143/237] multi_hop     6.57s searches=1
+[144/237] multi_hop     2.42s searches=1
+[145/237] multi_hop     3.29s searches=1
+[146/237] multi_hop     5.92s searches=1
+[147/237] multi_hop     6.85s searches=1
+[148/237] multi_hop     3.69s searches=1
+[149/237] multi_hop     2.99s searches=1
+[150/237] multi_hop     4.62s searches=1
+[151/237] multi_hop     4.71s searches=1
+[152/237] superseded    3.76s searches=1
+[153/237] superseded    4.95s searches=1
+[154/237] superseded    5.91s searches=1
+[155/237] superseded    5.16s searches=1
+[156/237] superseded    2.13s searches=1
+[157/237] superseded     3.3s searches=1
+[158/237] superseded    5.56s searches=1
+[159/237] superseded    1.85s searches=1
+[160/237] superseded    2.07s searches=1
+[161/237] superseded    2.72s searches=1
+[162/237] superseded    3.11s searches=1
+[163/237] superseded    2.71s searches=1
+[164/237] superseded    1.76s searches=1
+[165/237] superseded    3.42s searches=1
+[166/237] superseded    3.64s searches=1
+[167/237] superseded    3.09s searches=1
+[168/237] superseded    1.62s searches=1
+[169/237] superseded    2.43s searches=1
+[170/237] superseded    1.14s searches=1
+[171/237] superseded    9.35s searches=1
+[172/237] superseded    4.84s searches=1
+[173/237] superseded    10.2s searches=1
+[174/237] superseded    6.54s searches=1
+[175/237] not_covered   5.43s searches=1
+[176/237] not_covered   3.69s searches=1
+[177/237] not_covered   2.93s searches=1
+[178/237] not_covered   2.98s searches=1
+[179/237] not_covered   2.37s searches=1
+[180/237] not_covered   2.64s searches=1
+[181/237] not_covered   2.44s searches=1
+[182/237] not_covered  10.24s searches=1
+[183/237] not_covered   1.31s searches=1
+[184/237] not_covered   2.61s searches=1
+[185/237] not_covered   4.32s searches=1
+[186/237] not_covered   3.31s searches=1
+[187/237] not_covered   3.34s searches=1
+[188/237] not_covered   2.09s searches=1
+[189/237] not_covered   4.27s searches=1
+[190/237] not_covered   4.55s searches=1
+[191/237] not_covered   3.21s searches=1
+[192/237] not_covered    3.5s searches=1
+[193/237] not_covered   3.81s searches=1
+[194/237] not_covered   2.33s searches=1
+[195/237] not_covered   3.82s searches=1
+[196/237] not_covered   3.05s searches=1
+[197/237] not_covered   1.66s searches=1
+[198/237] not_covered   2.85s searches=1
+[199/237] not_covered   2.98s searches=1
+[200/237] not_covered   1.59s searches=1
+[201/237] not_covered   3.81s searches=1
+[202/237] not_covered   3.33s searches=1
+[203/237] not_covered   2.02s searches=1
+[204/237] not_covered   4.98s searches=1
+[205/237] not_covered   7.11s searches=1
+[206/237] not_covered    2.6s searches=1
+[207/237] not_covered    9.9s searches=1
+[208/237] not_covered   6.74s searches=1
+[209/237] not_covered   1.52s searches=1
+[210/237] not_covered   2.18s searches=1
+[211/237] not_covered    0.7s searches=1
+[212/237] not_covered    1.9s searches=1
+[213/237] not_covered   4.59s searches=1
+[214/237] not_covered   1.68s searches=1
+[215/237] not_covered   3.11s searches=1
+[216/237] not_covered    2.6s searches=1
+[217/237] not_covered   2.32s searches=1
+[218/237] not_covered   1.72s searches=1
+[219/237] not_covered   2.93s searches=1
+[220/237] not_covered   2.12s searches=1
+[221/237] not_covered   3.96s searches=1
+[222/237] not_covered   2.26s searches=1
+[223/237] not_covered   2.86s searches=1
+[224/237] not_covered   3.04s searches=1
+[225/237] not_covered   2.33s searches=1
+[226/237] not_covered   2.58s searches=1
+[227/237] not_covered   4.52s searches=1
+[228/237] not_covered   3.43s searches=1
+[229/237] not_covered   2.88s searches=1
+[230/237] not_covered   2.79s searches=1
+[231/237] not_covered   2.74s searches=1
+[232/237] not_covered   4.44s searches=1
+[233/237] not_covered   3.16s searches=1
+[234/237] not_covered   3.77s searches=1
+[235/237] not_covered   3.38s searches=1
+[236/237] not_covered   5.14s searches=1
+[237/237] not_covered   2.31s searches=1
+=== 04:57 2/7 build v5 trajectories (k=6, 40% keyword first queries)
+W1116 04:57:56.451000 75707 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 23548.09it/s]
+    "superseded": 0,
+    "not_covered": 0
+  },
+  "not_covered_share_train": 0.235
+}
+{
+  "replaced": 49,
+  "kept_teacher": 238,
+  "skip_multi_search": 99,
+  "skip_other_results": 56,
+  "reject_quality": 83
+}
+=== 04:58 3/7 MLX training files
+not_covered in train: 68 of 341
+valid 18 trajectories -> 41 examples
+train 341 trajectories -> 778 examples
+examples=778 iters=1167
+=== 04:58 4/7 train v5
+Loading configuration file configs/lora_v5.yaml
+Loading pretrained model
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 3687.12it/s]
+Loading datasets
+Training
+[34m╭─[0m[34m [0m[1;35mmlx_lm.lora[0m[34m [0m[34m───────────────────────────────────────────────────────────────────────────────────────────────────────[0m[34m─╮[0m
+[34m│[0m    [39mmodel        [0m   [1mCohereLabs/tiny-aya-global[0m                                                                        [34m│[0m
+[34m│[0m    [39mtype         [0m   [1mlora · 16 layers · rank 16[0m                                                                        [34m│[0m
+[34m│[0m    [39mdataset      [0m   [1mdata/mlx_v5[0m                                                                                       [34m│[0m
+[34m│[0m    [39moptimizer    [0m   [1madam · lr 1.0e-04[0m                                                                                 [34m│[0m
+[34m│[0m    [39mbatch · iters[0m   [1m2 · 1,167[0m                                                                                         [34m│[0m
+[34m│[0m    [39mmax seq      [0m   [1m4,608[0m                                                                                             [34m│[0m
+[34m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯[0m
+Trainable parameters: 0.102% (3.408M/3349.228M)
+  [1miter   train_loss     tok/s     tokens[0m
+  [38;5;244m   1[0m    [1;35mval[0m [1m3.243[0m    [38;5;244m14.59s[0m
+  [38;5;244m  20[0m    [1;32m1.527 ▼[0m    [1m   40[0m    [38;5;244m  1.9k[0m
+  [38;5;244m  40[0m    [1;32m0.701 ▼[0m    [1m   32[0m    [38;5;244m  3.8k[0m
+  [38;5;244m  60[0m    [1;32m0.616 ▼[0m    [1m   36[0m    [38;5;244m  5.8k[0m
+  [38;5;244m  80[0m    [1;32m0.610 ▼[0m    [1m   38[0m    [38;5;244m  7.9k[0m
+  [38;5;244m 100[0m    [1;35mval[0m [1m0.507[0m    [38;5;244m14.24s[0m
+  [38;5;244m 100[0m    [1;32m0.512 ▼[0m    [1m   36[0m    [38;5;244m  9.9k[0m
+  [38;5;244m 120[0m    [1;32m0.445 ▼[0m    [1m   34[0m    [38;5;244m 11.7k[0m
+  [38;5;244m 140[0m    [1;32m0.357 ▼[0m    [1m   39[0m    [38;5;244m 13.9k[0m
+  [38;5;244m 160[0m    [1;33m0.502 ▲[0m    [1m   30[0m    [38;5;244m 15.8k[0m
+  [38;5;244m 180[0m    [1;33m0.605 ▲[0m    [1m   24[0m    [38;5;244m 17.4k[0m
+  [38;5;244m 200[0m    [1;35mval[0m [1m0.535[0m    [38;5;244m15.22s[0m
+  [38;5;244m 200[0m    [1;32m0.366 ▼[0m    [1m   34[0m    [38;5;244m 19.2k[0m
+  [38;5;244m 220[0m    [1;33m0.397 ▲[0m    [1m   31[0m    [38;5;244m 21.4k[0m
+  [38;5;244m 240[0m    [1;32m0.377 ▼[0m    [1m   34[0m    [38;5;244m 23.3k[0m
+  [38;5;244m 260[0m    [1;33m0.395 ▲[0m    [1m   35[0m    [38;5;244m 25.4k[0m
+  [38;5;244m 280[0m    [1;33m0.436 ▲[0m    [1m   32[0m    [38;5;244m 27.2k[0m
+  [38;5;244m 300[0m    [1;35mval[0m [1m0.307[0m    [38;5;244m14.62s[0m
+  [38;5;244m 300[0m    [1;32m0.385 ▼[0m    [1m   33[0m    [38;5;244m 29.2k[0m
+  [38;5;244m 320[0m    [1;32m0.315 ▼[0m    [1m   37[0m    [38;5;244m 31.0k[0m
+  [38;5;244m 340[0m    [1;33m0.344 ▲[0m    [1m   30[0m    [38;5;244m 32.9k[0m
+  [38;5;244m 360[0m    [1;33m0.386 ▲[0m    [1m   34[0m    [38;5;244m 34.9k[0m
+  [38;5;244m 380[0m    [1;33m0.487 ▲[0m    [1m   36[0m    [38;5;244m 36.9k[0m
+  [38;5;244m 400[0m    [1;35mval[0m [1m0.380[0m    [38;5;244m12.97s[0m
+  [38;5;244m 400[0m    [1;32m0.387 ▼[0m    [1m   33[0m    [38;5;244m 38.8k[0m
+  [1;32msave[0m  [38;5;244m0000400_adapters.safetensors[0m
+  [38;5;244m 420[0m    [1;32m0.229 ▼[0m    [1m   36[0m    [38;5;244m 40.7k[0m
+  [38;5;244m 440[0m    [1;32m0.226 ▼[0m    [1m   37[0m    [38;5;244m 42.7k[0m
+  [38;5;244m 460[0m    [1;33m0.354 ▲[0m    [1m   37[0m    [38;5;244m 44.6k[0m
+  [38;5;244m 480[0m    [1;32m0.192 ▼[0m    [1m   35[0m    [38;5;244m 46.4k[0m
+  [38;5;244m 500[0m    [1;35mval[0m [1m0.367[0m    [38;5;244m12.60s[0m
+  [38;5;244m 500[0m    [1;33m0.246 ▲[0m    [1m   36[0m    [38;5;244m 48.4k[0m
+  [38;5;244m 520[0m    [1;33m0.287 ▲[0m    [1m   35[0m    [38;5;244m 50.3k[0m
+  [38;5;244m 540[0m    [1;33m0.309 ▲[0m    [1m   34[0m    [38;5;244m 52.3k[0m
+  [38;5;244m 560[0m    [1;32m0.276 ▼[0m    [1m   33[0m    [38;5;244m 54.2k[0m
+  [38;5;244m 580[0m    [1;32m0.245 ▼[0m    [1m   34[0m    [38;5;244m 56.2k[0m
+  [38;5;244m 600[0m    [1;35mval[0m [1m0.389[0m    [38;5;244m13.70s[0m
+  [38;5;244m 600[0m    [1;32m0.223 ▼[0m    [1m   31[0m    [38;5;244m 58.0k[0m
+  [38;5;244m 620[0m    [1;33m0.255 ▲[0m    [1m   36[0m    [38;5;244m 60.1k[0m
+  [38;5;244m 640[0m    [1;32m0.225 ▼[0m    [1m   38[0m    [38;5;244m 62.3k[0m
+  [38;5;244m 660[0m    [1;33m0.342 ▲[0m    [1m   27[0m    [38;5;244m 64.3k[0m
+  [38;5;244m 680[0m    [1;32m0.206 ▼[0m    [1m   35[0m    [38;5;244m 66.3k[0m
+  [38;5;244m 700[0m    [1;35mval[0m [1m0.277[0m    [38;5;244m12.17s[0m
+  [38;5;244m 700[0m    [1;33m0.222 ▲[0m    [1m   35[0m    [38;5;244m 68.2k[0m
+  [38;5;244m 720[0m    [1;33m0.414 ▲[0m    [1m   27[0m    [38;5;244m 70.0k[0m
+  [38;5;244m 740[0m    [1;32m0.352 ▼[0m    [1m   31[0m    [38;5;244m 71.9k[0m
+  [38;5;244m 760[0m    [1;32m0.185 ▼[0m    [1m   34[0m    [38;5;244m 73.8k[0m
+  [38;5;244m 780[0m    [1;33m0.309 ▲[0m    [1m   30[0m    [38;5;244m 75.8k[0m
+  [38;5;244m 800[0m    [1;35mval[0m [1m0.310[0m    [38;5;244m13.41s[0m
+  [38;5;244m 800[0m    [1;32m0.163 ▼[0m    [1m   32[0m    [38;5;244m 77.6k[0m
+  [1;32msave[0m  [38;5;244m0000800_adapters.safetensors[0m
+  [38;5;244m 820[0m    [1;33m0.200 ▲[0m    [1m   32[0m    [38;5;244m 79.5k[0m
+  [38;5;244m 840[0m    [1;32m0.139 ▼[0m    [1m   37[0m    [38;5;244m 81.4k[0m
+  [38;5;244m 860[0m    [1;33m0.210 ▲[0m    [1m   31[0m    [38;5;244m 83.2k[0m
+  [38;5;244m 880[0m    [1;32m0.187 ▼[0m    [1m   32[0m    [38;5;244m 85.3k[0m
+  [38;5;244m 900[0m    [1;35mval[0m [1m0.387[0m    [38;5;244m14.53s[0m
+  [38;5;244m 900[0m    [1;33m0.213 ▲[0m    [1m   36[0m    [38;5;244m 87.5k[0m
+  [38;5;244m 920[0m    [1;32m0.152 ▼[0m    [1m   32[0m    [38;5;244m 89.5k[0m
+  [38;5;244m 940[0m    [1;33m0.229 ▲[0m    [1m   33[0m    [38;5;244m 91.6k[0m
+  [38;5;244m 960[0m    [1;32m0.183 ▼[0m    [1m   32[0m    [38;5;244m 93.5k[0m
+  [38;5;244m 980[0m    [1;33m0.218 ▲[0m    [1m   33[0m    [38;5;244m 95.5k[0m
+  [38;5;244m1000[0m    [1;35mval[0m [1m0.359[0m    [38;5;244m15.32s[0m
+  [38;5;244m1000[0m    [1;32m0.131 ▼[0m    [1m   34[0m    [38;5;244m 97.5k[0m
+  [38;5;244m1020[0m    [1;33m0.172 ▲[0m    [1m   34[0m    [38;5;244m 99.5k[0m
+  [38;5;244m1040[0m    [1;33m0.202 ▲[0m    [1m   40[0m    [38;5;244m101.6k[0m
+  [38;5;244m1060[0m    [1;32m0.159 ▼[0m    [1m   36[0m    [38;5;244m103.7k[0m
+  [38;5;244m1080[0m    [1;32m0.155 ▼[0m    [1m   29[0m    [38;5;244m105.4k[0m
+  [38;5;244m1100[0m    [1;35mval[0m [1m0.267[0m    [38;5;244m15.69s[0m
+  [38;5;244m1100[0m    [1;33m0.159 ▲[0m    [1m   32[0m    [38;5;244m107.4k[0m
+  [38;5;244m1120[0m    [1;33m0.178 ▲[0m    [1m   39[0m    [38;5;244m109.2k[0m
+  [38;5;244m1140[0m    [1;33m0.188 ▲[0m    [1m   37[0m    [38;5;244m111.0k[0m
+  [38;5;244m1160[0m    [1;32m0.181 ▼[0m    [1m   28[0m    [38;5;244m112.8k[0m
+  [38;5;244m1167[0m    [1;35mval[0m [1m0.407[0m    [38;5;244m13.22s[0m
+  [38;5;244m1167[0m    [1;33m0.280 ▲[0m    [1m   32[0m    [38;5;244m113.5k[0m
+[1;34mtrain[0m [34m██████████████████████████████[0m [1;34m100%[0m [38;5;244m·[0m [1;34m1,167[0m[38;5;244m/1,167[0m
+=== 05:57 5/7 evaluate v5 at k=6 and k=4
+W1116 05:57:50.797000 77049 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 3422.06it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 10034.22it/s]
+[1/98] single_hop    3.94s searches=1
+[2/98] single_hop    2.33s searches=1
+[3/98] single_hop    2.92s searches=1
+[4/98] single_hop    2.99s searches=1
+[5/98] single_hop    2.66s searches=1
+[6/98] single_hop     4.5s searches=1
+[7/98] single_hop    3.23s searches=1
+[8/98] single_hop    2.84s searches=1
+[9/98] single_hop    3.85s searches=1
+[10/98] single_hop    6.54s searches=2
+[11/98] single_hop    3.03s searches=1
+[12/98] single_hop    4.86s searches=2
+[13/98] single_hop    4.23s searches=2
+[14/98] single_hop    3.43s searches=1
+[15/98] single_hop    2.85s searches=1
+[16/98] single_hop    3.28s searches=1
+[17/98] single_hop    3.06s searches=1
+[18/98] single_hop    3.22s searches=1
+[19/98] single_hop    2.89s searches=1
+[20/98] single_hop    2.89s searches=1
+[21/98] single_hop    3.01s searches=1
+[22/98] single_hop    3.18s searches=1
+[23/98] single_hop    5.58s searches=2
+[24/98] single_hop    4.61s searches=2
+[25/98] single_hop    3.29s searches=1
+[26/98] single_hop    4.74s searches=2
+[27/98] single_hop    2.93s searches=1
+[28/98] single_hop    4.48s searches=2
+[29/98] single_hop    2.94s searches=1
+[30/98] single_hop    2.99s searches=1
+[31/98] single_hop    3.44s searches=1
+[32/98] single_hop    2.77s searches=1
+[33/98] single_hop    2.12s searches=1
+[34/98] single_hop    2.28s searches=1
+[35/98] single_hop    3.71s searches=1
+[36/98] single_hop    2.58s searches=1
+[37/98] single_hop    2.81s searches=1
+[38/98] single_hop    3.02s searches=1
+[39/98] single_hop    2.86s searches=1
+[40/98] single_hop    3.04s searches=1
+[41/98] single_hop     5.5s searches=1
+[42/98] single_hop     2.8s searches=1
+[43/98] single_hop    14.7s searches=2
+[44/98] single_hop    3.15s searches=1
+[45/98] single_hop     3.1s searches=1
+[46/98] single_hop    3.01s searches=1
+[47/98] single_hop    2.57s searches=1
+[48/98] single_hop    3.59s searches=1
+[49/98] single_hop    3.06s searches=1
+[50/98] single_hop    2.57s searches=1
+[51/98] single_hop    5.14s searches=1
+[52/98] single_hop    3.43s searches=1
+[53/98] single_hop    3.21s searches=1
+[54/98] single_hop    4.36s searches=2
+[55/98] single_hop    2.11s searches=1
+[56/98] single_hop    2.66s searches=1
+[57/98] single_hop     2.8s searches=1
+[58/98] single_hop    3.64s searches=1
+[59/98] single_hop    2.91s searches=1
+[60/98] single_hop    2.78s searches=1
+[61/98] single_hop    3.21s searches=1
+[62/98] multi_hop    24.43s searches=2
+[63/98] multi_hop     4.21s searches=1
+[64/98] multi_hop     5.01s searches=1
+[65/98] multi_hop     2.82s searches=1
+[66/98] multi_hop     4.63s searches=1
+[67/98] multi_hop     2.65s searches=1
+[68/98] multi_hop     2.64s searches=1
+[69/98] multi_hop     2.31s searches=1
+[70/98] superseded     3.6s searches=1
+[71/98] superseded     5.1s searches=2
+[72/98] superseded    3.89s searches=1
+[73/98] superseded    6.55s searches=2
+[74/98] superseded    2.56s searches=1
+[75/98] superseded    2.85s searches=1
+[76/98] superseded    3.42s searches=1
+[77/98] superseded    3.29s searches=1
+[78/98] not_covered    2.8s searches=1
+[79/98] not_covered   3.29s searches=1
+[80/98] not_covered   2.72s searches=1
+[81/98] not_covered   3.16s searches=1
+[82/98] not_covered   3.59s searches=1
+[83/98] not_covered   2.96s searches=1
+[84/98] not_covered   2.78s searches=1
+[85/98] not_covered   3.27s searches=1
+[86/98] not_covered   3.46s searches=1
+[87/98] not_covered   4.55s searches=1
+[88/98] not_covered   2.66s searches=1
+[89/98] not_covered   3.02s searches=1
+[90/98] not_covered   4.57s searches=1
+[91/98] not_covered   2.86s searches=1
+[92/98] not_covered   5.01s searches=1
+[93/98] not_covered   2.95s searches=1
+[94/98] not_covered   5.34s searches=2
+[95/98] not_covered   5.66s searches=2
+[96/98] not_covered   4.95s searches=2
+[97/98] not_covered   7.46s searches=2
+[98/98] not_covered   4.54s searches=2
+W1116 06:04:16.091000 77205 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 3239.96it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 21588.79it/s]
+[1/98] single_hop    3.65s searches=1
+[2/98] single_hop     2.2s searches=1
+[3/98] single_hop    3.63s searches=1
+[4/98] single_hop    2.87s searches=1
+[5/98] single_hop    4.42s searches=2
+[6/98] single_hop    4.46s searches=1
+[7/98] single_hop    3.07s searches=1
+[8/98] single_hop    2.69s searches=1
+[9/98] single_hop    3.55s searches=1
+[10/98] single_hop    4.27s searches=2
+[11/98] single_hop    2.63s searches=1
+[12/98] single_hop    2.24s searches=1
+[13/98] single_hop    2.91s searches=1
+[14/98] single_hop    3.36s searches=1
+[15/98] single_hop    3.55s searches=1
+[16/98] single_hop     2.3s searches=1
+[17/98] single_hop    2.85s searches=1
+[18/98] single_hop     3.0s searches=1
+[19/98] single_hop    2.65s searches=1
+[20/98] single_hop    2.65s searches=1
+[21/98] single_hop    2.84s searches=1
+[22/98] single_hop    2.73s searches=1
+[23/98] single_hop    4.43s searches=2
+[24/98] single_hop    4.29s searches=2
+[25/98] single_hop    2.61s searches=1
+[26/98] single_hop    2.33s searches=1
+[27/98] single_hop    3.03s searches=1
+[28/98] single_hop    4.08s searches=2
+[29/98] single_hop    2.72s searches=1
+[30/98] single_hop    2.84s searches=1
+[31/98] single_hop    3.02s searches=1
+[32/98] single_hop    2.37s searches=1
+[33/98] single_hop    2.43s searches=1
+[34/98] single_hop    2.12s searches=1
+[35/98] single_hop    3.75s searches=1
+[36/98] single_hop    2.47s searches=1
+[37/98] single_hop    2.68s searches=1
+[38/98] single_hop    2.72s searches=1
+[39/98] single_hop    2.95s searches=1
+[40/98] single_hop    3.32s searches=1
+[41/98] single_hop    5.69s searches=1
+[42/98] single_hop    4.86s searches=2
+[43/98] single_hop    3.22s searches=1
+[44/98] single_hop    2.67s searches=1
+[45/98] single_hop     2.7s searches=1
+[46/98] single_hop    4.85s searches=1
+[47/98] single_hop    3.25s searches=1
+[48/98] single_hop    3.41s searches=1
+[49/98] single_hop    4.69s searches=1
+[50/98] single_hop    2.45s searches=1
+[51/98] single_hop    2.41s searches=1
+[52/98] single_hop    3.04s searches=1
+[53/98] single_hop    2.95s searches=1
+[54/98] single_hop    4.99s searches=2
+[55/98] single_hop    1.97s searches=1
+[56/98] single_hop    4.15s searches=2
+[57/98] single_hop     3.1s searches=1
+[58/98] single_hop    2.92s searches=1
+[59/98] single_hop    4.52s searches=1
+[60/98] single_hop    3.42s searches=1
+[61/98] single_hop    2.49s searches=1
+[62/98] multi_hop    14.24s searches=2
+[63/98] multi_hop      5.0s searches=2
+[64/98] multi_hop     4.11s searches=1
+[65/98] multi_hop     2.77s searches=1
+[66/98] multi_hop     3.04s searches=1
+[67/98] multi_hop     4.44s searches=2
+[68/98] multi_hop     2.44s searches=1
+[69/98] multi_hop     2.14s searches=1
+[70/98] superseded    3.59s searches=1
+[71/98] superseded    4.26s searches=2
+[72/98] superseded   10.14s searches=2
+[73/98] superseded   11.97s searches=2
+[74/98] superseded    3.15s searches=1
+[75/98] superseded     2.6s searches=1
+[76/98] superseded    3.18s searches=1
+[77/98] superseded    3.52s searches=1
+[78/98] not_covered   4.63s searches=2
+[79/98] not_covered   2.99s searches=1
+[80/98] not_covered   4.63s searches=2
+[81/98] not_covered   3.01s searches=1
+[82/98] not_covered   2.66s searches=1
+[83/98] not_covered   4.78s searches=2
+[84/98] not_covered   2.53s searches=1
+[85/98] not_covered   2.98s searches=1
+[86/98] not_covered   3.24s searches=1
+[87/98] not_covered   4.69s searches=2
+[88/98] not_covered   2.48s searches=1
+[89/98] not_covered   2.84s searches=1
+[90/98] not_covered   5.33s searches=1
+[91/98] not_covered   2.76s searches=1
+[92/98] not_covered   4.85s searches=1
+[93/98] not_covered   2.72s searches=1
+[94/98] not_covered   6.65s searches=2
+[95/98] not_covered   4.79s searches=2
+[96/98] not_covered   4.44s searches=2
+[97/98] not_covered   2.67s searches=1
+[98/98] not_covered   4.21s searches=2
+=== 06:10 6/7 judge
+run | n | correct | correct_ci | correct+partial | wrong | refused
+tuned_v5_agent_k6 | 74 | 0.324 | (0.216, 0.432) | 0.459 | 0.527 | 0.014
+tuned_v5_agent | 74 | 0.378 | (0.27, 0.5) | 0.527 | 0.459 | 0.014
+groq usage: {'calls': 127, 'cached': 19, 'prompt_tokens': 37925, 'completion_tokens': 3155}
+=== 06:15 7/7 score
+run | n | key_fact_recall | answer_overlap | false_not_found | old_rule_rate | not_found_f1 | searches_per_q | cites_source | cites_answer | invalid_format
+base_no_tools | 95 | 0.177 | 0.46 | 0.054 | 0.375 | 0.276 | 0.0 | 0.0 | 0.0 | 0
+base_agent | 95 | 0.119 | 0.365 | 0.135 | 0.25 | 0.229 | 0.105 | 0.027 | 0.027 | 0
+base_agent_force | 95 | 0.118 | 0.271 | 0.135 | 0.375 | 0.368 | 0.6 | 0.176 | 0.176 | 0
+base_naive_rag | 95 | 0.598 | 0.655 | 0.108 | 0.5 | 0.513 | 1.0 | 0.297 | 0.405 | 0
+base_naive_rag_k6 | 95 | 0.668 | 0.695 | 0.068 | 0.625 | 0.471 | 1.0 | 0.432 | 0.5 | 0
+tuned_v2_agent_fixparse | 95 | 0.274 | 0.397 | 0.176 | 0.125 | 0.553 | 1.347 | 0.311 | 0.459 | 0
+tuned_v3_agent | 95 | 0.32 | 0.455 | 0.0 | 0.5 | 0.5 | 1.042 | 0.459 | 0.622 | 0
+tuned_v4_agent | 95 | 0.323 | 0.521 | 0.027 | 0.5 | 0.467 | 1.074 | 0.419 | 0.608 | 0
+tuned_v4_agent_k6 | 95 | 0.387 | 0.524 | 0.0 | 0.5 | 0.5 | 1.105 | 0.351 | 0.486 | 0
+tuned_v5_agent | 95 | 0.366 | 0.509 | 0.014 | 0.375 | 0.308 | 1.211 | 0.446 | 0.608 | 0
+tuned_v5_agent_k6 | 95 | 0.311 | 0.472 | 0.014 | 0.25 | 0.37 | 1.168 | 0.365 | 0.541 | 0
+=== 06:15 ROUND5B_DONE

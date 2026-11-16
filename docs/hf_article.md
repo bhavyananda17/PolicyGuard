@@ -22,6 +22,7 @@ tags:
 - I fine-tuned [Tiny Aya Global](https://huggingface.co/CohereLabs/tiny-aya-global) (3.35B) with LoRA to act as a search agent over Indian health-insurance circulars. It searches, cites passages as `[chunk N]`, and says "not found" instead of guessing.
 - **What fine-tuning bought.** In the same agent loop, judged-correct answers go from **4% to 26%**, and citing the right passage goes from **3% to 42%**. Wrongly refusing an answerable question drops from 14% to 3%.
 - **What it didn't buy.** It does **not** beat a fixed "always search once, then answer" pipeline built on the same untrained model (32% correct). With 4 results the confidence intervals overlap. With 6 results the fixed pipeline pulls clearly ahead (47% vs 30%).
+- **A fifth round closed part of the gap.** v5, trained on 6-result observations with fuller self-distilled answers, reaches **38%** correct, 12 points above v4 (paired 95% CI +3 to +23). It still trails the fixed 6-result pipeline (47%), though that gap is no longer statistically clear.
 - **The grading holds up.** A second judge model agrees on 80% of verdicts (κ = 0.70) and ranks the setups the same way.
 - **Cost.** Everything ran on one laptop (MacBook Pro M5 Pro, 24 GB) and the free Groq tier, at zero cost. Training took about 50 minutes with MLX and touched 0.10% of the parameters.
 
@@ -188,7 +189,7 @@ I think this is the honest headline. On a corpus this small, with a search that 
 | PolicyGuard v4 | 26% → 30% (CI 20–41%) | 42% → 35% |
 | Untrained, fixed pipeline | 32% → **47%** (CI 35–58%) | 30% → 43% |
 
-The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely. PolicyGuard only ever saw 4-result observations in training, and it doesn't use the extra context well. So the best setup I measured is the *untrained* model in a fixed 6-result pipeline. That's the bar a future version has to clear, and it suggests training with 6-result observations.
+The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely. PolicyGuard only ever saw 4-result observations in training, and it doesn't use the extra context well. So the best setup I measured is the *untrained* model in a fixed 6-result pipeline. That's the bar a future version has to clear, and it suggests training with 6-result observations, which is what v5 does (below).
 
 **4. A second judge agrees.** I re-graded the three main setups with gpt-oss-120b.
 - The two judges agree on 80% of 222 verdicts, with Cohen's κ = 0.70.
@@ -197,7 +198,7 @@ The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely
 
 **5. The replaced-rule question is not answered.** With 8 replaced-rule test items from about 2 topics, every setup used the old rule on 25–50% of them. I make no claim either way.
 
-## What changed across four training rounds
+## What changed across five training rounds
 
 | Version | Change | Correct | Wrongly says "not found" | "Not found" F1 |
 |---|---|---|---|---|
@@ -205,6 +206,7 @@ The fixed pipeline gains 15 points; PolicyGuard gains 4 and cites less precisely
 | v2 | 18% "not found", plus 60 "search again" examples | 24% | 18% | 0.55 |
 | v3 | Plus answer in the last result, near-miss "not found", 3 epochs | 26% | 0% | 0.50 |
 | v4 | Plus 79 self-distilled final answers | 26% | 3% | 0.47 |
+| v5 | 6-result observations, 40% keyword first queries, fuller distilled answers | **38%** | 1% | 0.31 |
 
 The clearest lesson is about **refusals**. v1 saw one fixed "not found" sentence many times and learned it as an easy exit: it refused 26% of questions it could have answered. Two changes moved it back toward answering:
 - cutting the share of "not found" examples;
@@ -213,6 +215,25 @@ The clearest lesson is about **refusals**. v1 saw one fixed "not found" sentence
 By v3 it never wrongly refused, and in exchange it caught fewer unanswerable questions. **The mix of "not found" data sets the balance between answering and refusing.** The mix of training data mattered more than any hyperparameter I changed.
 
 Self-distillation (v4) didn't move correctness. It slightly raised the share of answers judged correct or partly correct (45% to 49%) and the word overlap with the reference (0.46 to 0.52). Both changes are within noise.
+
+**v5: training with the context it gets.** After the 6-result experiment, I changed three things in the data and kept everything else fixed:
+- observations show 6 results instead of 4;
+- about 40% of trajectories start with a short keyword query instead of the question copied word for word;
+- the self-distilled answers come from the untrained model's 6-result pipeline and may run to 150 words.
+
+| Setup | Correct (95% CI) | Correct or partly | Wrongly says "not found" | "Not found" P / R / F1 |
+|---|---|---|---|---|
+| PolicyGuard v4, 4 results | 26% (16–35) | 49% | 3% | 0.78 / 0.33 / 0.47 |
+| **PolicyGuard v5, 4 results** | **38% (27–50)** | 53% | 1% | 0.80 / 0.19 / 0.31 |
+| PolicyGuard v5, 6 results | 32% (22–43) | 46% | 1% | 0.83 / 0.24 / 0.37 |
+| Untrained, fixed pipeline, 6 results | 47% (35–58) | 58% | 7% | 0.62 / 0.38 / 0.47 |
+
+On the same questions, v5 beats v4 by 12 points (it gains 12 questions and loses 3; paired 95% CI +3 to +23). It is the first change across five rounds that clearly moved correctness. It still trails the fixed 6-result pipeline by 9.5 points (CI −3 to +20). Three things I didn't expect:
+- **It is worse with 6 results than with 4**, although it was trained on 6. The gap (7 questions vs 3) is within noise.
+- **It catches fewer unanswerable questions.** Recall fell to 4 of 21, though its refusals stay precise.
+- **It mostly still copies the question** as its first query (82 of 98, down from 97), so the keyword-query training only partly took.
+
+The public adapter is still v4; v5 was evaluated locally.
 
 ## Two measurement mistakes I caught
 
@@ -237,7 +258,8 @@ I'm including these because they changed the conclusion.
 
 ## What I'd try next
 
-- **Train with the context it will get.** Re-train on 6-result observations, since the untrained fixed pipeline jumps to 47% with 6 results and PolicyGuard doesn't keep up. A reranker would help every setup.
+- **Close the last gap to the fixed pipeline.** v5 shows that matching the training context helps (26% → 38%). Next would be more keyword-query trajectories, so the agent actually searches differently from the fixed pipeline, and a reranker, which would help every setup.
+- **Win back the unanswerable questions.** v5 traded "not found" recall for correctness; near-miss examples written at 6 results may restore it.
 - **More replaced-rule items.** Hand-checked questions across more topics, so the current-versus-old-rule question can actually be measured.
 - **Training on the agent's own trajectories.** For example, rejection sampling over the agent's own runs, rather than only teacher-shaped ones.
 - **A real comparison against the always-search pipeline.** It should be the baseline to beat, not the untrained agent.

@@ -124,5 +124,41 @@
       "single_hop": 0.533,
       "superseded": 0.25
     }
+  },
+  {
+    "run": "tuned_v5_agent_k6",
+    "n": 74,
+    "judge": "qwen/qwen3.8-27b",
+    "correct": 0.324,
+    "correct_ci": [
+      0.216,
+      0.432
+    ],
+    "correct_or_partial": 0.459,
+    "wrong": 0.527,
+    "refused": 0.014,
+    "by_type": {
+      "multi_hop": 0.0,
+      "single_hop": 0.4,
+      "superseded": 0.0
+    }
+  },
+  {
+    "run": "tuned_v5_agent",
+    "n": 74,
+    "judge": "qwen/qwen3.8-27b",
+    "correct": 0.378,
+    "correct_ci": [
+      0.27,
+      0.5
+    ],
+    "correct_or_partial": 0.527,
+    "wrong": 0.459,
+    "refused": 0.014,
+    "by_type": {
+      "multi_hop": 0.0,
+      "single_hop": 0.45,
+      "superseded": 0.125
+    }
   }
 ]
