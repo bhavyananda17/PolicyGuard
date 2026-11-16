@@ -2,7 +2,7 @@
 
 PolicyGuard is a LoRA fine-tune of [Tiny Aya Global](https://huggingface.co/CohereLabs/tiny-aya-global) (3.35B) that answers questions about Indian health-insurance rules by searching IRDAI circulars. It cites the passages it used, and when the documents don't cover a question it is supposed to say so rather than guess.
 
-I built it for the [Lexsi AI Safety & Alignment Hackathon](https://hackathon.lexsi.ai/), Track 3, problem statement 4 (fine-tuning for RAG). The synthetic data and self-distillation parts also overlap with problem statements 5 and 3. This README is also the project write-up.
+We built it for the [Lexsi AI Safety & Alignment Hackathon](https://hackathon.lexsi.ai/), Track 3, problem statement 4 (fine-tuning for RAG). The synthetic data and self-distillation parts also overlap with problem statements 5 and 3. This README is also the project write-up.
 
 Links:
 - Demo: [huggingface.co/spaces/bhavyananda17/policyguard-demo](https://huggingface.co/spaces/bhavyananda17/policyguard-demo) (all 95 test questions side by side, with grades and search steps)
@@ -20,7 +20,7 @@ The untrained Tiny Aya does the second. Asked how often the Master Circular is r
 >
 > PolicyGuard: *(searches "How often will this Master Circular be reviewed?")* The Master Circular is reviewed every year unless review or repeal is warranted earlier. [chunk 1]
 
-Small models are the ones that would realistically run on a phone or behind a support line, so I wanted to see whether a small fine-tune could get a 3B model to behave like a careful search agent rather than a confident guesser.
+Small models are the ones that would realistically run on a phone or behind a support line, so we wanted to see whether a small fine-tune could get a 3B model to behave like a careful search agent rather than a confident guesser.
 
 ## Results
 
@@ -41,15 +41,15 @@ All rows use the top 4 search results except the last.
 
 In the same agent loop, fine-tuning takes the model from 4% to 38% correct. The untrained model searches on about 10% of questions and invents citations; the tuned one searches every time and tries a different query when the first one misses.
 
-It does not clearly beat the simplest alternative, which is to always search once with the question and let the untrained model answer from the results. At 4 results v5 is 6 points ahead, but the paired 95% CI on that difference is −7 to +18. With 6 results that simple pipeline reaches 47%, which is the best number I measured. PolicyGuard's advantages are elsewhere: it cites the right passage more often, it almost never refuses a question it could answer, and its "not found" answers are usually right. The flip side is that v5 only catches 4 of the 21 questions the documents don't answer.
+It does not clearly beat the simplest alternative, which is to always search once with the question and let the untrained model answer from the results. At 4 results v5 is 6 points ahead, but the paired 95% CI on that difference is −7 to +18. With 6 results that simple pipeline reaches 47%, which is the best number we measured. PolicyGuard's advantages are elsewhere: it cites the right passage more often, it almost never refuses a question it could answer, and its "not found" answers are usually right. The flip side is that v5 only catches 4 of the 21 questions the documents don't answer.
 
-I can't say anything about whether it prefers the current rule over the replaced one. There are only 8 replaced-rule test questions, from about two topics, and every setup used the old rule on 25–50% of them.
+We can't say anything about whether it prefers the current rule over the replaced one. There are only 8 replaced-rule test questions, from about two topics, and every setup used the old rule on 25–50% of them.
 
 Accuracy is low across the board. Search only finds the source passage for 71% of answerable questions at 4 results (81% at 6), and a 3B model reading regulatory text often drops a condition or a date.
 
 ### Second judge
 
-To check that the results aren't an artifact of one judge, I re-graded three setups with gpt-oss-120b ([src/judge_agreement.py](src/judge_agreement.py), output in `results/judge2/`).
+To check that the results aren't an artifact of one judge, we re-graded three setups with gpt-oss-120b ([src/judge_agreement.py](src/judge_agreement.py), output in `results/judge2/`).
 
 | Setup | Correct (qwen3.8-27b) | Correct (gpt-oss-120b) | Exact agreement | Cohen's κ |
 |---|---|---|---|---|
@@ -93,7 +93,7 @@ The gains from v5 are almost all on single-rule questions. The two-rule and repl
 
 The thing that moved most between v1 and v4 was the balance between answering and refusing, and it was set almost entirely by the "not found" examples. v1 saw one fixed refusal sentence many times and learned to use it as an easy way out, refusing 26% of answerable questions. Varying the wording and adding near-miss examples (results on the right topic that don't contain the answer) fixed that, but v3 and later catch fewer of the genuinely unanswerable questions.
 
-Accuracy didn't move from v2 to v4. Self-distillation in v4 nudged correct-or-partly-correct from 45% to 49% and word overlap from 0.46 to 0.52, both within noise. What finally moved accuracy was rerunning v4 and the always-search pipeline with 6 results instead of 4, without retraining. The pipeline went from 32% to 47% and its right-passage citations from 30% to 43%. v4 only went from 26% to 30%, and its citations dropped from 42% to 35%. v4 had only ever seen 4-result observations. For v5 I rebuilt the training data ([scripts/round5b.sh](scripts/round5b.sh)) with:
+Accuracy didn't move from v2 to v4. Self-distillation in v4 nudged correct-or-partly-correct from 45% to 49% and word overlap from 0.46 to 0.52, both within noise. What finally moved accuracy was rerunning v4 and the always-search pipeline with 6 results instead of 4, without retraining. The pipeline went from 32% to 47% and its right-passage citations from 30% to 43%. v4 only went from 26% to 30%, and its citations dropped from 42% to 35%. v4 had only ever seen 4-result observations. For v5 we rebuilt the training data ([scripts/round5b.sh](scripts/round5b.sh)) with:
 - 6 results per observation;
 - a short keyword query as the first search in about 40% of trajectories, instead of the question copied verbatim;
 - self-distilled answers taken from the 6-result pipeline, allowed up to 150 words.
@@ -200,13 +200,13 @@ For the tuned models `agent` and `agent_force` behave identically, because they 
 
 Three test questions come from blank policy templates where the "answer" is literally "XXX". They're excluded from every score ([data/qa/test_exclusions.json](data/qa/test_exclusions.json)).
 
-I made two measurement mistakes along the way, and both changed the conclusions:
-- My first headline metric was word overlap, which rewards long answers that copy the passage. That's why I added the judge.
-- My first "not found" detector missed phrasings like "not explicitly stated", which the untrained model uses a lot. That undercounted the always-search pipeline's refusals and made PolicyGuard look much better at spotting unanswerable questions than it is. Fixing it raised the pipeline's "not found" F1 from 0.22 to 0.51. Every number above uses the fixed detector.
+We made two measurement mistakes along the way, and both changed the conclusions:
+- Our first headline metric was word overlap, which rewards long answers that copy the passage. That's why we added the judge.
+- Our first "not found" detector missed phrasings like "not explicitly stated", which the untrained model uses a lot. That undercounted the always-search pipeline's refusals and made PolicyGuard look much better at spotting unanswerable questions than it is. Fixing it raised the pipeline's "not found" F1 from 0.22 to 0.51. Every number above uses the fixed detector.
 
 ## Reproduce
 
-You need an Apple Silicon Mac (training and inference use MLX) and Python 3.12. You also need a Hugging Face token with access to the gated `CohereLabs/tiny-aya-global`. A Groq API key is only needed to regenerate questions or re-run the judge without the cache. I used a 24 GB M5 Pro, where one training run takes about an hour.
+You need an Apple Silicon Mac (training and inference use MLX) and Python 3.12. You also need a Hugging Face token with access to the gated `CohereLabs/tiny-aya-global`. A Groq API key is only needed to regenerate questions or re-run the judge without the cache. We used a 24 GB M5 Pro, where one training run takes about an hour.
 
 ```bash
 git clone https://github.com/bhavyananda17/lexsi_labs_project && cd lexsi_labs_project
@@ -268,14 +268,14 @@ results/              every run's answers and transcripts, summaries, judge verd
 
 ## Limitations
 
-- **Small test set.** With 74 answerable and 21 unanswerable questions, differences of a few points are noise. With only 8 replaced-rule questions, the question I most wanted to answer (does the model follow the newer rule?) isn't answered.
+- **Small test set.** With 74 answerable and 21 unanswerable questions, differences of a few points are noise. With only 8 replaced-rule questions, the question we most wanted to answer (does the model follow the newer rule?) isn't answered.
 - **Synthetic questions.** LLMs wrote the questions from the passages, so they lean on the circulars' own wording. The "not answered" questions were checked by retrieval plus an LLM, not by a person.
-- **Judges, not people.** Two LLM judges agree reasonably well (κ = 0.70), but I didn't collect human labels.
+- **Judges, not people.** Two LLM judges agree reasonably well (κ = 0.70), but we didn't collect human labels.
 - **Near-miss examples.** These are built by removing passages that contain a key fact verbatim, so a remaining passage could still state the answer in other words.
 - **Search is the ceiling.** It finds the source passage for 71% of answerable questions, and 52 of the 495 chunks are longer than MiniLM's 256-token window.
 - **Not advice.** This is not legal or financial advice. It covers two IRDAI documents, and real policies and later circulars may differ.
 
-## What I'd try next
+## What we'd try next
 
 - More keyword-query trajectories, so the agent's searches actually differ from the fixed pipeline's, and a reranker, which would help every setup.
 - Near-miss "not found" examples written at 6 results, to win back the unanswerable questions v5 gave up.
@@ -284,7 +284,7 @@ results/              every run's answers and transcripts, summaries, judge verd
 
 ## Notes on tools and data
 
-I wrote the code and docs with Claude (Anthropic) as a coding assistant; I reviewed the design, experiments and results. Questions, reference answers and key facts were generated with `openai/gpt-oss-120b`, `openai/gpt-oss-20b` and `qwen/qwen3.8-27b` on Groq, and every request and response is in `data/cache/`. The source documents are public IRDAI circulars; IRDAI is not affiliated with this project.
+We wrote the code and docs with Claude (Anthropic) as a coding assistant; we reviewed the design, experiments and results. Questions, reference answers and key facts were generated with `openai/gpt-oss-120b`, `openai/gpt-oss-20b` and `qwen/qwen3.8-27b` on Groq, and every request and response is in `data/cache/`. The source documents are public IRDAI circulars; IRDAI is not affiliated with this project.
 
 ## License
 

@@ -1,6 +1,6 @@
 """Chunk the IRDAI documents and build a FAISS index with a version tag on every chunk.
 
-Same chunking choices as my earlier study index (about 140 words per chunk, 25-word
+Same chunking choices as our earlier study index (about 140 words per chunk, 25-word
 overlap, header line with the document title, MiniLM embeddings, cosine search), adapted
 for PDF text: text is cleaned page by page and every chunk records its page number.
 
